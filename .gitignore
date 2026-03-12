@@ -1,0 +1,58 @@
+# .gitignore для C# WPF проекта
+
+## Visual Studio / IDE
+.vs/
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+*.cache
+
+## Build results (НЕ трогаем NuGet packages!)
+[Dd]ebug/
+[Dd]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]uild/
+# НЕТ !**/packages/ - оставляем NuGet
+
+## Логи и временные файлы
+*.log
+*.cache
+*.tmp
+
+## Ос Explorer
+Desktop.ini
+Thumbs.db
+
+## Пользовательские настройки БД (но НЕ сами DataSet файлы)
+app.config.user
+*Settings.Settings.user
+
+## Windows
+# Thumbnails
+ehthumbs.db
+ehthumbs_vi.db
+
+## Документы Office
+~$*
+
+## Сборка и тесты
+TestResults/
+[Bb]uild[Ll]og.*
+
+# НЕ добавляем эти строки, чтобы сохранить источники данных:
+# *.xsd - нужен для DataSet
+# *.xss *.xsc *.designer.cs - генерируемые файлы DataSet
+# LoskutovaDatabaseDataSet* - ваш конкретный DataSet
+
+# ✅ Сохраняем папки Image везде
+![Dd]ebug/**/Image/
+![Dd]elease/**/Image/
+!bin/[Dd]ebug/Image/
+!bin/[Rr]elease/Image/
+!bin/x64/[Dd]ebug/Image/
+!bin/x64/[Rr]elease/Image/

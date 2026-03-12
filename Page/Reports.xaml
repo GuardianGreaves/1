@@ -1,0 +1,59 @@
+﻿<Page x:Class="diplom_loskutova.Page.Reports"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:diplom_loskutova.Page"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Reports">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock FontSize="15" Text="Отчеты "/>
+        </Button>
+
+        <Grid Margin="10" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Сложные запросы" FontSize="24px"/>
+            <TextBlock Margin="0 10 0 0" Grid.Row="2" Text="Отчеты" FontSize="24px"/>
+
+            <WrapPanel Grid.Row="1"
+            Background="Transparent"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Уровень активности граждан" x:Name="Report1" Click="Report1_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Реестр участников мероприятий" x:Name="Report2" Click="Report2_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Список текущих мероприятий" x:Name="Report3" Click="Report3_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Статистика удовлетворенности заявок" x:Name="Report4" Click="Report4_Click"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="3"
+            Background="Transparent"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Анализ персональных заявок" x:Name="Report5" Click="Report5_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Статистика предоставленных услуг" x:Name="Report6" Click="Report6_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Статистика проведенных мероприятий сотрудником" x:Name="Report7" Click="Report7_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Рейтинг мероприятий по популярности" x:Name="Report8" Click="Report8_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Бюджет по типам мероприятий" x:Name="Report9" Click="Report9_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Эффективность мероприятий" x:Name="Report10" Click="Report10_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Динамика подачи заявок" x:Name="Report11" Click="Report11_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Топ активных участников" x:Name="Report12" Click="Report12_Click"/>
+                <Button Style="{StaticResource ButtonDefault}" Height="30" Content="Нагрузка на социальных работников" x:Name="Report13" Click="Report13_Click"/>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Page>

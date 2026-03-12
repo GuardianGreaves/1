@@ -1,0 +1,230 @@
+﻿<Page x:Class="diplom_loskutova.Page.Applications"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
+      mc:Ignorable="d" 
+      Title="Заявки">
+
+    <Page.Resources>
+        <!-- Цветовая схема -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2196F3"/>
+        <SolidColorBrush x:Key="LightBlue" Color="#E3F2FD"/>
+        <SolidColorBrush x:Key="Blue50" Color="#BBDEFB"/>
+        <SolidColorBrush x:Key="Blue100" Color="#90CAF9"/>
+        <SolidColorBrush x:Key="Blue200" Color="#64B5F6"/>
+        <SolidColorBrush x:Key="Blue400" Color="#2196F3"/>
+        <SolidColorBrush x:Key="Blue500" Color="#1E88E5"/>
+        <SolidColorBrush x:Key="Blue600" Color="#1976D2"/>
+        <SolidColorBrush x:Key="White" Color="White"/>
+        <SolidColorBrush x:Key="LightGray" Color="#F8F9FA"/>
+        <SolidColorBrush x:Key="GrayText" Color="#6C757D"/>
+        <SolidColorBrush x:Key="DarkText" Color="#2C3E50"/>
+
+        <!-- Стиль кнопок действий -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Blue400}"/>
+            <Setter Property="Foreground" Value="{StaticResource White}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="10" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue500}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue600}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль карточки статистики -->
+        <Style x:Key="StatCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource White}"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Blue50}"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource LightBlue}" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Заголовок + кнопки -->
+            <RowDefinition Height="*"/>
+            <!-- ListView + правая панель -->
+            <RowDefinition Height="Auto"/>
+            <!-- Статистика (НОВОЕ место) -->
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок и кнопки действий -->
+        <Grid Grid.Row="0" Margin="10 5 10 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" 
+                       Text="Заявки" 
+                       FontSize="26" 
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource Blue600}"
+                       VerticalAlignment="Center"
+                       Margin="3 0 0 0"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="btnChange" Content="Редактировать" Style="{StaticResource ActionButtonStyle}" Click="BtnChange"/>
+                <Button x:Name="btnAdd" Content="Добавить" Style="{StaticResource ActionButtonStyle}" Click="BtnAdd"/>
+                <Button x:Name="btnDelete" Content="Удалить" Style="{StaticResource ActionButtonStyle}" Click="BtnDelete"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- ListView + Панель фильтров -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Список заявок -->
+
+            <!-- Список заявок с встроенной статистикой -->
+            <Border Grid.Column="0" Background="{StaticResource White}" 
+        CornerRadius="16" Margin="5 0 5 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <!-- ListView -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Статистика -->
+                    </Grid.RowDefinitions>
+
+                    <!-- ListView -->
+                    <ListView Grid.Row="0" x:Name="listViewApplication" 
+                  MouseDoubleClick="ListViewStatus_MouseDoubleClick"
+                  Margin="5">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Заявки]}" Width="auto"/>
+                                <GridViewColumn Header="Гражданин" DisplayMemberBinding="{Binding [ИмяПользователя]}" Width="auto"/>
+                                <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding [СтатусМероприятия]}" Width="auto"/>
+                                <GridViewColumn Header="Мероприятие" DisplayMemberBinding="{Binding [Название]}" Width="auto"/>
+                                <GridViewColumn Header="Дата создания" DisplayMemberBinding="{Binding [Дата_Создания]}" Width="auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <!-- Статистика ВНУТРИ Border -->
+                    <Border Grid.Row="1" Margin="10">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Записей:" FontSize="14" 
+                           Foreground="{StaticResource Blue600}" 
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock x:Name="tbCurrentCount" FontSize="16" FontWeight="Bold" 
+                           Foreground="{StaticResource Blue600}"
+                           Text="0"/>
+                            <TextBlock Text="из" FontSize="14" 
+                           Foreground="{StaticResource GrayText}" 
+                           VerticalAlignment="Center" Margin="8,0"/>
+                            <TextBlock x:Name="tbTotalUsers" FontSize="16" FontWeight="Bold" 
+                           Foreground="{StaticResource Blue600}"
+                           Text="0"/>
+                            <TextBlock Text="| Страница" FontSize="14" 
+                           Foreground="{StaticResource GrayText}" 
+                           VerticalAlignment="Center" Margin="12,0,0,0"/>
+                            <TextBlock x:Name="tbCurrentPage" FontSize="16" FontWeight="Bold" 
+                           Foreground="{StaticResource Blue600}"
+                           Text="1"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Панель фильтров и график -->
+            <Border Grid.Column="1" Background="{StaticResource White}" 
+                    CornerRadius="16" Margin="5 0 5 5" Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Фильтры -->
+                    <Border Grid.Row="0" Background="Transparent"
+                            CornerRadius="12" Padding="5" Margin="0">
+                        <StackPanel>
+                            <TextBlock Text="Фильтры" FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource Blue600}" Margin="0,0,16,1"/>
+
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по ФИО" FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <ComboBox x:Name="ComboBoxSearchFIO" Height="25" 
+                                          Background="{StaticResource White}" BorderBrush="{StaticResource Blue200}"
+                                          SelectionChanged="ComboBoxSearchFIO_SelectionChanged"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по статусу" FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <ComboBox x:Name="ComboBoxSearchStatus" Height="25" 
+                                          Background="{StaticResource White}" BorderBrush="{StaticResource Blue200}"
+                                          SelectionChanged="ComboBoxSearchStatus_SelectionChanged"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по мероприятию" FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <ComboBox x:Name="ComboBoxSearchEvent" Height="25" 
+                                          Background="{StaticResource White}" BorderBrush="{StaticResource Blue200}"
+                                          SelectionChanged="ComboBoxSearchEvent_SelectionChanged"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,0,5">
+                                <TextBlock Text="Поиск по дате" FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <DatePicker x:Name="DatePickerSearch" Height="25" 
+                                            Background="{StaticResource White}" BorderBrush="{StaticResource Blue200}"
+                                            SelectedDateChanged="DatePickerSearch_SelectedDateChanged"/>
+                            </StackPanel>
+                            <Button Content="Сбросить фильтр" Style="{StaticResource ActionButtonStyle}" 
+                                    Click="BtnResetFilter_Click" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- График -->
+                    <!-- График - ПРАВИЛЬНО -->
+                    <Border Grid.Row="1" Background="{StaticResource White}" 
+        CornerRadius="12" Padding="5" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <!-- Заголовок -->
+                                <RowDefinition Height="*"/>
+                                <!-- WpfPlot -->
+                            </Grid.RowDefinitions>
+
+                            <!-- ScottPlot -->
+                            <ScottPlot:WpfPlot Grid.Row="1" x:Name="WpfPlot1" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

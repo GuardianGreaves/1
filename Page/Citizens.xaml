@@ -1,0 +1,118 @@
+﻿<Page x:Class="diplom_loskutova.Page.Citizens"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:diplom_loskutova.Page" xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Citizens">
+    
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock FontSize="15" Text="Граждане "/>
+        </Button>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" HorizontalAlignment="Right" x:Name="btnDelete" Click="BtnDelete">
+                <TextBlock FontSize="15" Text="Удалить"/>
+            </Button>
+            <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" HorizontalAlignment="Right" x:Name="btnAdd" Click="BtnAdd">
+                <TextBlock FontSize="15" Text="Добавить"/>
+            </Button>
+            <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" HorizontalAlignment="Right" x:Name="btnChange" Click="BtnChange">
+                <TextBlock FontSize="15" Text="Редактировать"/>
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <!-- Всего пользователей -->
+                <Border Style="{StaticResource RoundedBorderStyle}" Background="LightBlue">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Всего: " FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="tbTotalCitizen" FontSize="16" FontWeight="Bold" Margin="0,0,10,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListView x:Name="listViewCitizen" MouseDoubleClick="ListViewStatus_MouseDoubleClick" Grid.Column="0" ItemsSource="{Binding}" SelectionChanged="listViewCitizen_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Гражданина]}"/>
+                        <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding [Дата_Рождения]}"/>
+                        <GridViewColumn Header="Контактный телефон" DisplayMemberBinding="{Binding [Контактный_Телефон]}"/>
+                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding [Фамилия]}"/>
+                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding [Имя]}"/>
+                        <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding [Отчество]}"/>
+                        <GridViewColumn Header="Фото" DisplayMemberBinding="{Binding [Фото]}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Background="Wheat">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Поиск по дате рождения"/>
+                            <DatePicker Grid.Row="1" x:Name="DatePickerSearch" SelectedDateChanged="DatePickerSearch_SelectedDateChanged"/>
+
+                            <TextBlock Grid.Row="2" Text="Поиск по телефону"/>
+                            <TextBox Grid.Row="3" x:Name="TextBoxSearchTelephone" TextChanged="TextBoxSearchTelephone_TextChanged"/>
+
+                            <TextBlock Grid.Row="4" Text="Поиск по ФИО"/>
+                            <TextBox Grid.Row="5" x:Name="TextBoxSearchFIO" TextChanged="TextBoxSearchFIO_TextChanged"/>
+
+                            <Button Margin="0 10 0 0" Grid.Row="6" Content="Сбросить фильтр" Click="BtnResetFilter_Click" />
+
+                        </Grid>
+                        <Image Grid.Column="0" x:Name="PhotoImage" Margin="0 0 5 0" Stretch="Uniform"/>
+                    </Grid>
+                </StackPanel>
+                <TextBlock  Grid.Row="1" Text="Распределение пользователей по возрасту" TextAlignment="Center" FontSize="14"/>
+                <ScottPlot:WpfPlot x:Name="WpfPlot1" Grid.Row="2"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

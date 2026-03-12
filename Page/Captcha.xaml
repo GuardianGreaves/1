@@ -1,0 +1,174 @@
+﻿<Page x:Class="diplom_loskutova.Page.Captcha"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      Title="Captcha">
+
+    <Page.Resources>
+        <!-- Те же цвета что в авторизации -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2196F3"/>
+        <SolidColorBrush x:Key="LightBlue" Color="#E3F2FD"/>
+        <SolidColorBrush x:Key="Blue50" Color="#BBDEFB"/>
+        <SolidColorBrush x:Key="Blue100" Color="#90CAF9"/>
+        <SolidColorBrush x:Key="Blue200" Color="#64B5F6"/>
+        <SolidColorBrush x:Key="Blue300" Color="#42A5F5"/>
+        <SolidColorBrush x:Key="Blue400" Color="#2196F3"/>
+        <SolidColorBrush x:Key="Blue500" Color="#1E88E5"/>
+        <SolidColorBrush x:Key="Blue600" Color="#1976D2"/>
+        <SolidColorBrush x:Key="Blue700" Color="#1565C0"/>
+        <SolidColorBrush x:Key="White" Color="White"/>
+        <SolidColorBrush x:Key="LightGray" Color="#F8F9FA"/>
+        <SolidColorBrush x:Key="GrayText" Color="#6C757D"/>
+        <SolidColorBrush x:Key="DarkText" Color="#2C3E50"/>
+
+        <!-- Стиль поля ввода капчи -->
+        <Style x:Key="CaptchaTextFieldStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GrayText}"/>
+            <Setter Property="Background" Value="{StaticResource White}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource Blue200}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль кнопки -->
+        <Style x:Key="CaptchaButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Blue400}"/>
+            <Setter Property="Foreground" Value="{StaticResource White}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue500}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue600}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль кнопки обновления -->
+        <Style x:Key="RefreshButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Blue50}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue200}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+        <Grid Margin="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <TextBlock Grid.Row="1" 
+                       Text="Подтверждение" 
+                       FontSize="36" 
+                       FontWeight="Light"
+                       Foreground="{StaticResource Blue700}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Margin="0,0,0,40"/>
+
+            <!-- Блок с капчей -->
+            <Border Grid.Row="2" 
+                    Background="{StaticResource White}"
+                    CornerRadius="20"
+                    BorderThickness="0"
+                    BorderBrush="{StaticResource Blue50}"
+                    Padding="32"
+                    Margin="0,0,0,24">
+
+                <StackPanel>
+                    <!-- Изображение капчи + кнопка обновления -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" 
+                                CornerRadius="12" 
+                                BorderThickness="2" 
+                                BorderBrush="{StaticResource GrayText}"
+                                Background="{StaticResource White}">
+                            <Image x:Name="captchaImage" 
+                                   Height="56" 
+                                   Width="280" 
+                                   Stretch="Uniform"
+                                   VerticalAlignment="Center"/>
+                        </Border>
+
+                        <Button Grid.Column="1" 
+                                Style="{StaticResource RefreshButtonStyle}"
+                                Width="44" Height="44" 
+                                Margin="12,0,0,0"
+                                Click="Button_Click">
+                            <iconPacks:PackIconMaterial Kind="Refresh" 
+                                                      Width="20" Height="20"
+                                                      Foreground="{StaticResource Blue600}"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Поле ввода капчи -->
+                    <Border Style="{StaticResource CaptchaTextFieldStyle}" Height="56" Margin="0,0,0,24">
+                        <Grid>
+                            <TextBox x:Name="textBoxCaptcha" 
+                                     Height="56"
+                                     FontSize="18"
+                                     VerticalAlignment="Center"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Padding="5"
+                                     Foreground="{StaticResource DarkText}"
+                                     VerticalContentAlignment="Center"
+                                     TextAlignment="Center" TextChanged="textBoxCaptcha_TextChanged"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Кнопка Войти -->
+                    <Button Content="Подтвердить" 
+                            Style="{StaticResource CaptchaButtonStyle}"
+                            Height="56"
+                            Click="Button_Click_1"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
