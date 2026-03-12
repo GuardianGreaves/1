@@ -8,6 +8,7 @@
       mc:Ignorable="d" 
       Title="ApplicationsAOC">
 
+    
     <Page.Resources>
         <!-- Цветовая схема -->
         <SolidColorBrush x:Key="PrimaryBlue" Color="#2196F3"/>
