@@ -7,59 +7,6 @@
       mc:Ignorable="d" 
       Title="Заявки">
 
-    <Page.Resources>
-        <!-- Цветовая схема -->
-        <SolidColorBrush x:Key="PrimaryBlue" Color="#2196F3"/>
-        <SolidColorBrush x:Key="LightBlue" Color="#E3F2FD"/>
-        <SolidColorBrush x:Key="Blue50" Color="#BBDEFB"/>
-        <SolidColorBrush x:Key="Blue100" Color="#90CAF9"/>
-        <SolidColorBrush x:Key="Blue200" Color="#64B5F6"/>
-        <SolidColorBrush x:Key="Blue400" Color="#2196F3"/>
-        <SolidColorBrush x:Key="Blue500" Color="#1E88E5"/>
-        <SolidColorBrush x:Key="Blue600" Color="#1976D2"/>
-        <SolidColorBrush x:Key="White" Color="White"/>
-        <SolidColorBrush x:Key="LightGray" Color="#F8F9FA"/>
-        <SolidColorBrush x:Key="GrayText" Color="#6C757D"/>
-        <SolidColorBrush x:Key="DarkText" Color="#2C3E50"/>
-
-        <!-- Стиль кнопок действий -->
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource Blue400}"/>
-            <Setter Property="Foreground" Value="{StaticResource White}"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" Padding="10" CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource Blue500}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="{StaticResource Blue600}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Стиль карточки статистики -->
-        <Style x:Key="StatCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource White}"/>
-            <Setter Property="CornerRadius" Value="16"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Blue50}"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="10"/>
-        </Style>
-    </Page.Resources>
 
     <Grid Background="{StaticResource LightBlue}" Margin="0">
         <Grid.RowDefinitions>
@@ -80,11 +27,7 @@
 
             <TextBlock Grid.Column="0" 
                        Text="Заявки" 
-                       FontSize="26" 
-                       FontWeight="SemiBold"
-                       Foreground="{StaticResource Blue600}"
-                       VerticalAlignment="Center"
-                       Margin="3 0 0 0"/>
+                       Style="{StaticResource PageTitleStyle}"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="btnChange" Content="Редактировать" Style="{StaticResource ActionButtonStyle}" Click="BtnChange"/>
@@ -104,7 +47,7 @@
 
             <!-- Список заявок с встроенной статистикой -->
             <Border Grid.Column="0" Background="{StaticResource White}" 
-        CornerRadius="16" Margin="5 0 5 5">
+        CornerRadius="16" Margin="5 0 5 5" Padding="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -115,8 +58,7 @@
 
                     <!-- ListView -->
                     <ListView Grid.Row="0" x:Name="listViewApplication" 
-                  MouseDoubleClick="ListViewStatus_MouseDoubleClick"
-                  Margin="5">
+                  MouseDoubleClick="ListViewStatus_MouseDoubleClick">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Заявки]}" Width="auto"/>
@@ -169,7 +111,7 @@
                             CornerRadius="12" Padding="5" Margin="0">
                         <StackPanel>
                             <TextBlock Text="Фильтры" FontSize="18" FontWeight="SemiBold" 
-                                       Foreground="{StaticResource Blue600}" Margin="0,0,16,1"/>
+                                       Foreground="{StaticResource Blue600}" Margin="0,0,16,10"/>
 
                             <StackPanel Margin="0,0,0,12">
                                 <TextBlock Text="Поиск по ФИО" FontSize="14" Margin="0,0,4,0" 

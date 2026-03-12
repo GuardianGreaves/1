@@ -44,6 +44,8 @@
         </Setter>
     </Style>
 
+    
+    
     <Style x:Key="ButtonFolder" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
@@ -70,55 +72,22 @@
         <Setter Property="Background" Value="{StaticResource Blue400}"/>
         <Setter Property="Foreground" Value="{StaticResource White}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Padding" Value="20,0"/>
+        <Setter Property="Margin" Value="5"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                        CornerRadius="14"
-                        Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center"
-                                    TextElement.FontSize="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}}"
-                                    TextElement.FontWeight="{Binding FontWeight, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Border Background="{TemplateBinding Background}" Padding="10" CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!-- Hover эффект -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource Blue500}"/>
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect Color="Black" 
-                                                Direction="270" 
-                                                ShadowDepth="2" 
-                                                BlurRadius="8" 
-                                                Opacity="0.3"/>
-                                </Setter.Value>
-                            </Setter>
                         </Trigger>
-
-                        <!-- Нажатие -->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{StaticResource Blue600}"/>
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect Color="Black" 
-                                                Direction="270" 
-                                                ShadowDepth="1" 
-                                                BlurRadius="4" 
-                                                Opacity="0.2"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-
-                        <!-- Отключено -->
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{StaticResource GrayText}"/>
-                            <Setter Property="Foreground" Value="{StaticResource White}"/>
-                            <Setter Property="Opacity" Value="0.6"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
