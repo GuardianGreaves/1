@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
 namespace diplom_loskutova.Page
@@ -32,12 +33,16 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.Fill(db.ГРАЖДАНИН);
-                tbTotalCitizen.Text = db.ГРАЖДАНИН.Count.ToString();
+                //tbTotalCitizen.Text = db.ГРАЖДАНИН.Count.ToString();
                 listViewCitizen.ItemsSource = db.ГРАЖДАНИН.DefaultView;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
+                msg.ShowDialog();
                 return;
             }
             BuildAgeHistogram();
@@ -68,7 +73,7 @@ namespace diplom_loskutova.Page
 
             WpfPlot1.Plot.ShowLegend(Alignment.UpperLeft);
             WpfPlot1.Plot.Axes.Margins(bottom: 0);
-            WpfPlot1.Plot.Title("Распределение граждан по возрастным группам");
+            WpfPlot1.Plot.Title("Распределение граждан по возрасту");
             WpfPlot1.Refresh();
         }
         private DataTable GetAgeGroupStatistics()
@@ -120,7 +125,11 @@ namespace diplom_loskutova.Page
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
+                msg.ShowDialog();
             }
             LoadUserStats();
         }
@@ -149,17 +158,26 @@ namespace diplom_loskutova.Page
 
                 if (hasRelated)
                 {
-                    var result = MessageBox.Show("Существуют связанные мероприятия. Вы уверены, что хотите удалить эту запись?",
-                        "Подтверждение удаления", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    var msg = new diplom_loskutova.NotificationDialog(
+                    "Внимание",
+                    "Вы уверены, что хотите удалить эту запись?",
+                    $"Существуют связанные мероприятия",
+                    "btnYesCancel");
+                    var result = msg.ShowDialog();
 
-                    if (result != MessageBoxResult.OK)
+                    if (result != true)
                         return;
                 }
 
                 else
                 {
-                    var result = MessageBox.Show("Вы уверены что хотите удалить запись ?", "Подтверждение удаления", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                    if (result != MessageBoxResult.OK)
+                    var msg = new diplom_loskutova.NotificationDialog(
+                    "Внимание",
+                    "Вы уверены, что хотите удалить эту запись?",
+                    $"",
+                    "btnYesCancel");
+                    var result = msg.ShowDialog();
+                    if (result != true)
                         return; 
                 }
 
@@ -170,12 +188,20 @@ namespace diplom_loskutova.Page
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка");
+                    var msg = new diplom_loskutova.NotificationDialog(
+                        "Ошибка",
+                        "Ошибка загрузки данных:",
+                        $"{ex.Message}");
+                    msg.ShowDialog();
                 }
             }
             else
             {
-                MessageBox.Show("Выберите строку для удаления.");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для удаления",
+                    "Вы можете выделить нужную строку и нажать Удалить");
+                msg.ShowDialog();
             }
         }
 
@@ -201,8 +227,13 @@ namespace diplom_loskutova.Page
         {
             if (TryGetSelectedRow(out DataRowView selectedRowView))
                 OpenPage(true, selectedRowView);
-            else
-                MessageBox.Show("Выберите строку для редактирования.");
+            else { 
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для редактирования",
+                    "Вы можете дважды кликнуть или выделить нужную строку и нажать Редактировать");
+            msg.ShowDialog();
+            }
         }
 
         // Открывает страницу добавления или изменения записи.
@@ -285,6 +316,7 @@ namespace diplom_loskutova.Page
 
         public void photo(string fileName)
         {
+            /*
             // 1. Пробуем путь проекта
             string projectPath = Path.Combine(AppContext.BaseDirectory + "\\Image-citizen", fileName);
             if (File.Exists(projectPath))
@@ -310,12 +342,15 @@ namespace diplom_loskutova.Page
                     // MessageBox.Show($"Фото не найдено:\n{projectPath}\n{desktopPath}"); // Отладка
                 }
             }
+            */
         }
 
         private void listViewCitizen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            /*
             if (TryGetSelectedRow(out DataRowView selectedRowView))
                 photo(selectedRowView["Фото"].ToString());
+            */
         }
     }
 }

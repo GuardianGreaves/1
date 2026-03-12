@@ -5768,11 +5768,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия\\diplom_loskutova.csproj",
+      "projectUniqueName": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия — копия\\diplom_loskutova.csproj",
       "projectName": "diplom_loskutova",
-      "projectPath": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия\\diplom_loskutova.csproj",
+      "projectPath": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия — копия\\diplom_loskutova.csproj",
       "packagesPath": "C:\\Users\\oboskalov_n\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия\\obj\\",
+      "outputPath": "C:\\Users\\oboskalov_n\\Desktop\\1-master — копия — копия\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "UsingMicrosoftNETSdk": false,

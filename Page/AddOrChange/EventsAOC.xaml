@@ -3,69 +3,257 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:local="clr-namespace:diplom_loskutova.Page.AddOrChange"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="EventsAOC">
 
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Page.Resources>
+        <!-- Цветовая схема - ТОЧНО ТАК ЖЕ -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2196F3"/>
+        <SolidColorBrush x:Key="LightBlue" Color="#E3F2FD"/>
+        <SolidColorBrush x:Key="Blue50" Color="#BBDEFB"/>
+        <SolidColorBrush x:Key="Blue100" Color="#90CAF9"/>
+        <SolidColorBrush x:Key="Blue200" Color="#64B5F6"/>
+        <SolidColorBrush x:Key="Blue400" Color="#2196F3"/>
+        <SolidColorBrush x:Key="Blue500" Color="#1E88E5"/>
+        <SolidColorBrush x:Key="Blue600" Color="#1976D2"/>
+        <SolidColorBrush x:Key="White" Color="White"/>
+        <SolidColorBrush x:Key="LightGray" Color="#F8F9FA"/>
+        <SolidColorBrush x:Key="GrayText" Color="#6C757D"/>
+        <SolidColorBrush x:Key="DarkText" Color="#2C3E50"/>
 
-        <!-- Верхняя панель с кнопками -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
-            <Button Style="{StaticResource ButtomMenu}" Height="30" Click="BtnBack" Margin="0,0,10,0">
-                <TextBlock FontSize="15" Text="Назад"/>
-            </Button>
+        <!-- Стиль поля ввода - ТОЧНО ТАК ЖЕ -->
+        <Style x:Key="FormFieldStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource White}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GrayText}"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="Width" Value="400"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource Blue200}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            <Button Style="{StaticResource ButtomMenu}" Height="30" IsEnabled="False">
-                <TextBlock x:Name="NamePage" FontSize="15" Text="Мероприятие Добавить / Редактировать"/>
-            </Button>
-        </StackPanel>
+        <!-- Стиль кнопки - ТОЧНО ТАК ЖЕ -->
+        <Style x:Key="FormButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Blue400}"/>
+            <Setter Property="Foreground" Value="{StaticResource White}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12" Padding="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue600}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <!-- Форма ввода данных -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- Стиль кнопки назад - ТОЧНО ТАК ЖЕ -->
+        <Style x:Key="BackButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Blue400}"/>
+            <Setter Property="Foreground" Value="{StaticResource Blue600}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10" Padding="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue50}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource Blue600}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Blue600}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="5">
+        <Grid Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <!-- Верхняя панель -->
                 <RowDefinition Height="Auto"/>
+                <!-- Заголовок -->
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <!-- Форма -->
+                <RowDefinition Height="*"/>
+                <!-- Кнопки -->
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontSize="15" Text="Пользователь:"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="5" Width="250" FontSize="15" x:Name="ComboBoxUser"/>
+            <!-- Верхняя панель с кнопками - ТОЧНО ТАК ЖЕ -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+                <Button Style="{StaticResource BackButtonStyle}" Click="BtnBack">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="ArrowLeft" 
+                                                  Width="18" Height="18"
+                                                  Margin="0,0,8,0"
+                                                  VerticalAlignment="Center"/>
+                        <TextBlock Text="Назад"/>
+                    </StackPanel>
+                </Button>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontSize="15" Text="Тип меропрития:"/>
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Width="250" FontSize="15" x:Name="ComboBoxTypeEvent"/>
+                <Button Style="{StaticResource ButtomMenu}" Height="44" Margin="16,0,0,0" IsEnabled="False">
+                    <TextBlock x:Name="NamePage" FontSize="16" 
+                               Text="Мероприятие - Добавить / Редактировать" FontWeight="SemiBold"/>
+                </Button>
+            </StackPanel>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontSize="15" Text="Название:"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Width="250" FontSize="15" x:Name="TextBoxName"/>
+            <!-- Заголовок формы - ТОЧНО ТАК ЖЕ -->
+            <TextBlock Grid.Row="1" 
+                       Text="Заполните данные мероприятия" 
+                       Style="{StaticResource PageHeaderStyle}"/>
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontSize="15" Text="Дата мероприятия:"/>
-            <DatePicker Grid.Row="3" Grid.Column="1" Margin="5" Width="250" FontSize="15" x:Name="DatePickerDate"/>
+            <!-- Форма ввода данных - ТОЧНО ТАК ЖЕ -->
+            <!-- Замени StackPanel на Grid -->
+            <Grid Grid.Row="2" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <!-- Левый столбец -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Правый столбец -->
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontSize="15" Text="Бюджет:"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Margin="5" Width="250" FontSize="15" x:Name="TextBoxBudget"/>
+                <!-- ЛЕВЫЙ СТОЛБЕЦ -->
+                <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                    <!-- Пользователь -->
+                    <TextBlock Text="Пользователь" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <ComboBox x:Name="ComboBoxUser"
+                          VerticalAlignment="Center"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          FontSize="18"
+                          Foreground="{StaticResource DarkText}"
+                          VerticalContentAlignment="Center"
+                          IsEditable="True"
+                          Padding="0,0,0,2"/>
+                        </Grid>
+                    </Border>
 
-            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" VerticalAlignment="Top" FontSize="15" Text="Описание:"/>
-            <TextBox Grid.Row="5" Grid.Column="1" Margin="5" Width="250" Height="100" FontSize="15" 
-                     TextWrapping="Wrap" AcceptsReturn="True" x:Name="TextBoxDescription"/>
+                    <!-- Название -->
+                    <TextBlock Text="Название" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <TextBox x:Name="TextBoxName"
+                         VerticalAlignment="Center"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="18"
+                         Foreground="{StaticResource DarkText}"
+                         VerticalContentAlignment="Center"
+                         Padding="0,0,0,2"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Дата -->
+                    <TextBlock Text="Дата мероприятия" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <DatePicker x:Name="DatePickerDate"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            FontSize="18"
+                            VerticalContentAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- ПРАВЫЙ СТОЛБЕЦ -->
+                <StackPanel Grid.Column="1">
+                    <!-- Тип мероприятия -->
+                    <TextBlock Text="Тип мероприятия" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <ComboBox x:Name="ComboBoxTypeEvent"
+                          VerticalAlignment="Center"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          FontSize="18"
+                          Foreground="{StaticResource DarkText}"
+                          VerticalContentAlignment="Center"
+                          IsEditable="True"
+                          Padding="0,0,0,2"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Бюджет -->
+                    <TextBlock Text="Бюджет" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <TextBox x:Name="TextBoxBudget"
+                         VerticalAlignment="Center"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="18"
+                         Foreground="{StaticResource DarkText}"
+                         VerticalContentAlignment="Center"
+                         Padding="0,0,0,2"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Описание -->
+                    <TextBlock Text="Описание" 
+                   Style="{StaticResource FormLabelStyle}"/>
+                    <Border Style="{StaticResource FormFieldStyle}">
+                        <Grid>
+                            <TextBox x:Name="TextBoxDescription"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="18"
+                         Foreground="{StaticResource DarkText}"
+                         VerticalContentAlignment="Top"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Padding="0,8,0,8"
+                         Height="60"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Кнопка сохранения - ТОЧНО ТАК ЖЕ -->
+            <Button Grid.Row="3" x:Name="ButtonSave" 
+                    Content="Сохранить мероприятие" 
+                    Style="{StaticResource FormButtonStyle}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="BtnSave"
+                    Width="250" Height="40"/>
         </Grid>
-
-        <!-- Кнопка сохранения -->
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button FontSize="15" Width="100" Content="Сохранить" Click="BtnSave"/>
-        </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

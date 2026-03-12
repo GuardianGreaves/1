@@ -35,12 +35,16 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.Fill(db.МЕРОПРИЯТИЕ);
-                tbTotalEvent.Text = db.МЕРОПРИЯТИЕ.Count.ToString();
+                //tbTotalEvent.Text = db.МЕРОПРИЯТИЕ.Count.ToString();
                 listViewEvents.ItemsSource = db.МЕРОПРИЯТИЕ.DefaultView;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
+                msg.ShowDialog();
                 return;
             }
             BuildEventTypeHistogram();
@@ -126,6 +130,12 @@ namespace diplom_loskutova.Page
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}\n\nStackTrace: {ex.StackTrace}", "Ошибка загрузки");
+                var msg = new diplom_loskutova.NotificationDialog(
+                "Ошибка",
+                "Ошибка загрузки данных:",
+                $"Ошибка: {ex.Message}\n\nStackTrace: {ex.StackTrace}");
+                msg.ShowDialog();
+
             }
         }
 
@@ -138,8 +148,13 @@ namespace diplom_loskutova.Page
         {
             if (TryGetSelectedRow(out DataRowView selectedRowView))
             {
-                var result = MessageBox.Show("Вы уверены что хотите удалить запись ?", "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                var msg = new diplom_loskutova.NotificationDialog(
+                "Внимание",
+                "Вы уверены, что хотите удалить эту запись?",
+                $"Существуют связанные мероприятия",
+                "btnYesCancel");
+                var result = msg.ShowDialog();
+                if (result == true)
                 {
                     selectedRowView.Row.Delete();
 
@@ -150,13 +165,21 @@ namespace diplom_loskutova.Page
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка");
+                        msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            "Ошибка загрузки данных:",
+                            $"{ex.Message}");
+                        msg.ShowDialog();
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Выберите строку для удаления.");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для удаления",
+                    "Вы можете выделить нужную строку и нажать Удалить");
+                msg.ShowDialog();
             }
 
         }
@@ -182,7 +205,13 @@ namespace diplom_loskutova.Page
             if (TryGetSelectedRow(out DataRowView selectedRowView))
                 OpenPage(true, selectedRowView);
             else
-                MessageBox.Show("Выберите строку для редактирования.");
+            {
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для редактирования",
+                    "Вы можете дважды кликнуть или выделить нужную строку и нажать Редактировать");
+                msg.ShowDialog();
+            }
         }
 
         private void OpenPage(bool isChangeOrAdd, DataRowView rowView = null)

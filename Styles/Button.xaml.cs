@@ -5,9 +5,5 @@
     /// </summary>
     public partial class Button : System.Windows.Controls.Page
     {
-        public Button()
-        {
-        }
-
     }
 }

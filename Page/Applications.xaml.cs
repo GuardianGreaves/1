@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace diplom_loskutova.Page
@@ -46,7 +47,12 @@ namespace diplom_loskutova.Page
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
+                msg.ShowDialog();
+
             }
         }
 
@@ -110,7 +116,11 @@ namespace diplom_loskutova.Page
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
+                msg.ShowDialog();
             }
         }
 
@@ -123,11 +133,17 @@ namespace diplom_loskutova.Page
         {
             if (TryGetSelectedRow(out DataRowView selectedRowView))
             {
-                var result = MessageBox.Show("Вы уверены что хотите удалить запись ?", "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Оповещение",
+                    "Подтверждение удаления",
+                    "Вы уверены что хотите удалить запись ?",
+                    "btnYesCancel");
+                var result = msg.ShowDialog();
+
+                if (result == true)
                 {
                     selectedRowView.Row.Delete();
-
+                    
                     try
                     {
                         adapter.Update(db.ЗАЯВКА);
@@ -135,13 +151,21 @@ namespace diplom_loskutova.Page
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка");
+                        msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            "Ошибка загрузки данных:",
+                            $"{ex.Message}");
+                        msg.ShowDialog();
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Выберите строку для удаления.");
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для удаления",
+                    "Выделите нужную строку и нажмите Удалить");
+                msg.ShowDialog();
             }
 
         }
@@ -160,10 +184,15 @@ namespace diplom_loskutova.Page
 
         private void NavigatePageSelectedRow()
         {
+            var msg = new diplom_loskutova.NotificationDialog(
+                    "Ошибка",
+                    "Выберите строку для редактирования",
+                    "Вы можете дважды кликнуть или выделить нужную строку и нажать Редактировать");
+
             if (TryGetSelectedRow(out DataRowView selectedRowView))
                 OpenPage(true, selectedRowView);
             else
-                MessageBox.Show("Выберите строку для редактирования.");
+                msg.ShowDialog();
         }
 
         // Универсальный метод для выбора строки из ListView как DataRowView.

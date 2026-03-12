@@ -151,11 +151,17 @@
     <Compile Include="Page\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Styles\Border.xaml.cs">
+      <DependentUpon>Border.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Styles\Button.xaml.cs">
       <DependentUpon>Button.xaml</DependentUpon>
     </Compile>
     <Compile Include="Styles\StackPanel.xaml.cs">
       <DependentUpon>StackPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Styles\Text.xaml.cs">
+      <DependentUpon>Text.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\UserControlReport.xaml.cs">
       <DependentUpon>UserControlReport.xaml</DependentUpon>
@@ -251,11 +257,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Border.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\StackPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Text.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
