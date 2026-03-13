@@ -86,7 +86,7 @@ namespace diplom_loskutova.Page
 
             btnPrev.IsEnabled = currentPage > 1;
             btnNext.IsEnabled = currentPage * pageSize < totalRecords;
-            tbTotalUsers.Text = totalRecords.ToString();
+            //tbTotalUsers.Text = totalRecords.ToString();
         }
 
         private void BtnPrev_Click(object sender, RoutedEventArgs e)

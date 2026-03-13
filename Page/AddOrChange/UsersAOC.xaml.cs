@@ -53,7 +53,7 @@ namespace diplom_loskutova.Page.AddOrChange
             TextBoxSurname.Text = currentRow["Фамилия"].ToString();
             TextBoxPatronymic.Text = currentRow["Отчество"].ToString();
             TextBoxLogin.Text = currentRow["Логин"].ToString();
-            TextBoxPassword.Text = currentRow["Пароль"].ToString();
+            TextBoxPassword.Password = currentRow["Пароль"].ToString();
             ComboBoxRole.SelectedValue = Convert.ToInt32(currentRow["ID_Роли"]);
             NamePage.Text = $"Редактирование записи №{Convert.ToInt32(currentRow["ID_Пользователя"])}";
         }
@@ -96,7 +96,7 @@ namespace diplom_loskutova.Page.AddOrChange
             string surname = TextBoxSurname.Text;
             string patronymic = TextBoxPatronymic.Text;
             string login = TextBoxLogin.Text;
-            string password = TextBoxPassword.Text;
+            string password = TextBoxPassword.Password;
 
             if (!TryGetIds(out roleId))
                 return;

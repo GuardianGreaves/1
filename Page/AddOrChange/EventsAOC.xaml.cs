@@ -42,7 +42,7 @@ namespace diplom_loskutova.Page.AddOrChange
             else
             {
                 ChangeOrAdd = false;
-                NamePage.Text = "Добавление записи в таблицу \"Заявки\"";
+                NamePage.Text = "Добавление записи в таблицу \"Мероприятия\"";
             }
         }
 

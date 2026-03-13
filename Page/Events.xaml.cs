@@ -351,5 +351,15 @@ namespace diplom_loskutova.Page
             var typeEventAdapter = new DP_2025_LoskutovaDataSetTableAdapters.ТИП_МЕРОПРИЯТИЯTableAdapter();
             ComboBoxHelper.LoadData(ComboBoxSearchTypeEvent, typeEventAdapter.GetData(), "Название", "ID_Типа");
         }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

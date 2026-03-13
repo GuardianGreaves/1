@@ -352,5 +352,15 @@ namespace diplom_loskutova.Page
                 photo(selectedRowView["Фото"].ToString());
             */
         }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

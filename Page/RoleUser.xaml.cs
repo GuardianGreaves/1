@@ -49,7 +49,7 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.Fill(db.РОЛЬ);
-                tbTotalUsers.Text = db.РОЛЬ.Count.ToString();
+                //tbTotalUsers.Text = db.РОЛЬ.Count.ToString();
                 listViewRoleUser.ItemsSource = db.РОЛЬ.DefaultView;
             }
             catch (Exception ex)
@@ -181,5 +181,14 @@ namespace diplom_loskutova.Page
             ApplyFilter();       
         }
 
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

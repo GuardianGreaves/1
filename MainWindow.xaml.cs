@@ -124,8 +124,7 @@ namespace diplom_loskutova
 
         private void ButtonOpenPageSettings(object sender, RoutedEventArgs e)
         {
-            diplom_loskutova.Page.Settings page = new diplom_loskutova.Page.Settings();
-            mainFrame.Navigate(page);
+            OpenPage(new diplom_loskutova.Page.Settings());
         }
     }
 }

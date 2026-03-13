@@ -68,11 +68,13 @@ namespace diplom_loskutova.Page
 
             if (result.count > 0)
             {
+                /*
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Успех",
                     "Вы успешно авторизировались",
                     "");
                 msg.ShowDialog();
+                */
                 MainWindow newWindow = new MainWindow(result.name, result.role);
                 newWindow.Show();
                 Application.Current.MainWindow.Close();

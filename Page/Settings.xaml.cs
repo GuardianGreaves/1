@@ -139,5 +139,10 @@ namespace diplom_loskutova.Page
                     MessageBoxImage.Error);
             }
         }
+
+        private void BtnBack(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

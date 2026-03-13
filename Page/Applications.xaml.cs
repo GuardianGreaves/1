@@ -42,7 +42,7 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.FillBy(db.ЗАЯВКА);
-                tbTotalUsers.Text = db.ЗАЯВКА.Count.ToString();
+                //tbTotalUsers.Text = db.ЗАЯВКА.Count.ToString();
                 listViewApplication.ItemsSource = db.ЗАЯВКА.DefaultView;
             }
             catch (Exception ex)
@@ -91,13 +91,14 @@ namespace diplom_loskutova.Page
         private DataTable GetApplicationStatusStatistics()
         {
             string sql = @"
-                        SELECT 
-                            s.Название as StatusName,
-                            ISNULL(COUNT(a.ID_Заявки), 0) as StatusCount
-                        FROM [dbo].[СТАТУС] s
-                        LEFT JOIN [dbo].[ЗАЯВКА] a ON s.ID_Статуса = a.ID_Статуса
-                        GROUP BY s.ID_Статуса, s.Название
-                        ORDER BY s.ID_Статуса";
+    SELECT DISTINCT
+        s.ID_Статуса,
+        s.Название as StatusName,
+        ISNULL(COUNT(a.ID_Заявки), 0) as StatusCount
+    FROM [dbo].[СТАТУС] s
+    LEFT JOIN [dbo].[ЗАЯВКА] a ON s.ID_Статуса = a.ID_Статуса
+    GROUP BY s.ID_Статуса, s.Название
+    ORDER BY s.ID_Статуса";
 
             DataTable dt = new DataTable();
             using (var adapter = new SqlDataAdapter(sql, connectionString))
@@ -300,5 +301,14 @@ namespace diplom_loskutova.Page
             ComboBoxHelper.LoadData(ComboBoxSearchEvent, eventAdapter.GetData(), "Название", "ID_Мероприятия");
         }
 
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

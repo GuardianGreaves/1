@@ -65,7 +65,7 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.FillBy(db.ПОЛЬЗОВАТЕЛЬ);
-                tbTotalUsers.Text = db.ПОЛЬЗОВАТЕЛЬ.Count.ToString();
+                //tbTotalUsers.Text = db.ПОЛЬЗОВАТЕЛЬ.Count.ToString();
                 listViewUsers.ItemsSource = db.ПОЛЬЗОВАТЕЛЬ.DefaultView;
             }
             catch (Exception ex)
@@ -256,6 +256,16 @@ namespace diplom_loskutova.Page
         private void TextBoxSearchLogin_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             ApplyFilter();
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

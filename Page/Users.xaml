@@ -3,92 +3,198 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:diplom_loskutova.Page" 
+      xmlns:local="clr-namespace:diplom_loskutova.Page"
       xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
       mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid Margin="5 0 5 5">
+      Title="Пользователи">
+
+    <Grid Style="{StaticResource DefaultPage}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <!-- Заголовок + кнопки -->
             <RowDefinition Height="*"/>
+            <!-- ListView + правая панель -->
+            <RowDefinition Height="Auto"/>
+            <!-- Статистика снизу -->
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <Button Style="{StaticResource ButtomMenu}" Height="30" Grid.Row="0" Content="Пользователи"/>
-
-        <!-- Кнопки CRUD + Статистика -->
-        <Grid Grid.Row="1">
+        <!-- Заголовок и кнопки действий - ТОЧНО ТАК ЖЕ -->
+        <Grid Style="{StaticResource PageHeaderGridStyle}" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Style="{StaticResource RoundedBorderStyle}" Background="LightBlue" 
-                    HorizontalAlignment="Left" Margin="5">
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Всего: " FontSize="14"/>
-                    <TextBlock x:Name="tbTotalUsers" FontSize="16" FontWeight="Bold" Margin="5 0 0 0"/>
-                </StackPanel>
-            </Border>
+            <TextBlock Grid.Column="0" 
+                       Text="Пользователи" 
+                       Style="{StaticResource PageTitleStyle}"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource ButtomMenu}" Height="30" x:Name="btnDelete" Click="BtnDelete" Content="Удалить"/>
-                <Button Style="{StaticResource ButtomMenu}" Height="30" x:Name="btnAdd" Click="BtnAdd" Content="Добавить"/>
-                <Button Style="{StaticResource ButtomMenu}" Height="30" x:Name="btnChange" Click="BtnChange" Content="Редактировать"/>
+                <Button x:Name="btnChange" Content="Редактировать" Style="{StaticResource ActionButtonStyle}" Click="BtnChange"/>
+                <Button x:Name="btnAdd" Content="Добавить" Style="{StaticResource ActionButtonStyle}" Click="BtnAdd"/>
+                <Button x:Name="btnDelete" Content="Удалить" Style="{StaticResource ActionButtonStyle}" Click="BtnDelete"/>
             </StackPanel>
         </Grid>
 
-        <!-- Основной контент -->
-        <Grid Grid.Row="2">
+        <!-- ListView + Панель фильтров/график - ТОЧНО ТА же структура -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ListView x:Name="listViewUsers" Grid.Column="0" MouseDoubleClick="ListViewStatus_MouseDoubleClick"
-                      ItemsSource="{Binding}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Пользователя]}"/>
-                        <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding [НазваниеРоли]}"/>
-                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding [Имя]}"/>
-                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding [Фамилия]}"/>
-                        <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding [Отчество]}"/>
-                        <GridViewColumn Header="Логин" DisplayMemberBinding="{Binding [Логин]}"/>
-                        <GridViewColumn Header="Пароль" DisplayMemberBinding="{Binding [Пароль]}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <!-- Список пользователей - ТОЧНО ТАК ЖЕ -->
+            <Border Grid.Column="0" Background="{StaticResource White}" 
+                    CornerRadius="16" Margin="5 0 5 5" Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <!-- ListView -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Статистика -->
+                    </Grid.RowDefinitions>
 
-            <!-- Панель фильтров + График -->
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                    <!-- ListView -->
+                    <ListView Grid.Row="0" x:Name="listViewUsers" 
+                              MouseDoubleClick="ListViewStatus_MouseDoubleClick"
+                              ItemsSource="{Binding}"
+                              Padding="0">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Пользователя]}" Width="auto"/>
+                                <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding [НазваниеРоли]}" Width="auto"/>
+                                <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding [Имя]}" Width="auto"/>
+                                <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding [Фамилия]}" Width="auto"/>
+                                <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding [Отчество]}" Width="auto"/>
+                                <GridViewColumn Header="Логин" DisplayMemberBinding="{Binding [Логин]}" Width="auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-                <StackPanel Grid.Row="0" Background="Beige" Margin="5">
-                    <TextBlock Text="Поиск по роли" Margin="0 5"/>
-                    <ComboBox x:Name="ComboBoxSearchRole" SelectionChanged="ComboBoxSearchRole_SelectionChanged"/>
-                    <TextBlock Text="Поиск по ФИО" Margin="0 10 0 5"/>
-                    <TextBox x:Name="TextBoxSearchFIO" TextChanged="TextBoxSearchFIO_TextChanged"/>
-                    <TextBlock Text="Поиск по логину" Margin="0 10 0 5"/>
-                    <TextBox x:Name="TextBoxSearchLogin" TextChanged="TextBoxSearchLogin_TextChanged"/>
-                    <Button Content="Сбросить фильтр" Click="BtnResetFilter_Click" Margin="0 10"/>
-                </StackPanel>
+                    <!-- Статистика ВНУТРИ Border -->
+                    <Grid Grid.Row="1" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- Страница -->
+                            <ColumnDefinition Width="*"/>
+                            <!-- Записей X из Y -->
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- Навигация -->
+                        </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="1">
+                        <TextBlock Grid.Column="0" 
+                                   x:Name="tbPageNumber"
+                                   Text="Страница 1" 
+                                   FontSize="14"
+                                   Foreground="{StaticResource Blue600}"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,20,0"/>
+
+                        <TextBlock Grid.Column="1" 
+                                   x:Name="tbRecordsInfo"
+                                   Text="Записей 15 из 34" 
+                                   FontSize="14"
+                                   Foreground="{StaticResource GrayText}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="btnPrev" 
+                                    Width="30" Height="25" 
+                                    Content="‹" 
+                                    Margin="0,0,5,0"
+                                    Style="{StaticResource ActionButtonStyle}"
+                                    Click="BtnPrev_Click"/>
+                            <Button x:Name="btnNext" 
+                                    Width="30" Height="25" 
+                                    Content="›"
+                                    Style="{StaticResource ActionButtonStyle}"
+                                    Click="BtnNext_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Панель фильтров и график - ТОЧНО ТА же структура -->
+            <Border Grid.Column="1" Background="{StaticResource White}" 
+                    CornerRadius="16" Margin="5 0 5 5" Padding="5">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Распределение пользователей по ролям" 
-                              TextAlignment="Center" FontSize="14" Margin="0 10"/>
-                    <ScottPlot:WpfPlot x:Name="WpfPlot1" Grid.Row="1"/>
+
+                    <!-- Фильтры - ТОЧНО ТАК ЖЕ -->
+                    <Border Grid.Row="0" Background="Transparent"
+                            CornerRadius="12" Padding="5" Margin="0">
+                        <StackPanel>
+                            <TextBlock Text="Фильтры" 
+                                       FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource Blue600}" 
+                                       Margin="0,0,16,10"/>
+
+                            <!-- Поиск по роли -->
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по роли" 
+                                           FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <ComboBox x:Name="ComboBoxSearchRole" 
+                                          Height="25" 
+                                          Background="{StaticResource White}" 
+                                          BorderBrush="{StaticResource Blue200}"
+                                          SelectionChanged="ComboBoxSearchRole_SelectionChanged"/>
+                            </StackPanel>
+
+                            <!-- Поиск по ФИО -->
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по ФИО" 
+                                           FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <TextBox x:Name="TextBoxSearchFIO" 
+                                         Height="25" 
+                                         Background="{StaticResource White}" 
+                                         BorderBrush="{StaticResource Blue200}"
+                                         TextChanged="TextBoxSearchFIO_TextChanged"/>
+                            </StackPanel>
+
+                            <!-- Поиск по логину -->
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="Поиск по логину" 
+                                           FontSize="14" Margin="0,0,4,0" 
+                                           Foreground="{StaticResource GrayText}"/>
+                                <TextBox x:Name="TextBoxSearchLogin" 
+                                         Height="25" 
+                                         Background="{StaticResource White}" 
+                                         BorderBrush="{StaticResource Blue200}"
+                                         TextChanged="TextBoxSearchLogin_TextChanged"/>
+                            </StackPanel>
+
+                            <!-- Кнопка сброса фильтра -->
+                            <Button Content="Сбросить фильтр" 
+                                    Style="{StaticResource ActionButtonStyle}" 
+                                    Click="BtnResetFilter_Click" 
+                                    HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- График - ТОЧНО ТАК ЖЕ как в Events -->
+                    <Border Grid.Row="1" Background="{StaticResource White}" 
+        CornerRadius="12" Padding="5" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <!-- Заголовок -->
+                                <RowDefinition Height="*"/>
+                                <!-- WpfPlot -->
+                            </Grid.RowDefinitions>
+
+                            <!-- ScottPlot -->
+                            <ScottPlot:WpfPlot Grid.Row="1" x:Name="WpfPlot1" />
+                        </Grid>
+                    </Border>
                 </Grid>
-            </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Page>

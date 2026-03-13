@@ -49,7 +49,7 @@ namespace diplom_loskutova.Page
             try
             {
                 adapter.Fill(db.ТИП_МЕРОПРИЯТИЯ);
-                tbTotalUsers.Text = db.ТИП_МЕРОПРИЯТИЯ.Count.ToString();
+                //tbTotalUsers.Text = db.ТИП_МЕРОПРИЯТИЯ.Count.ToString();
                 listViewTypeEvent.ItemsSource = db.ТИП_МЕРОПРИЯТИЯ.DefaultView;
             }
             catch (Exception ex)
@@ -182,6 +182,16 @@ namespace diplom_loskutova.Page
         {
             TextBoxSearchName.Text = "";          
             ApplyFilter();                          
+        }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
