@@ -24,8 +24,8 @@ namespace diplom_loskutova.Page
             {
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Ошибка",
-                    "Строка подключения к БД не найдена в App.config!",
-                    "Обратитесь к разработчику");
+                    "Строка подключения к БД не найдена",
+                    "Строка подключения к базе данных не найдена в App.config! Обратитесь к разработчику");
                 msg.ShowDialog();
 
                 return;
@@ -68,13 +68,11 @@ namespace diplom_loskutova.Page
 
             if (result.count > 0)
             {
-                /*
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Успех",
                     "Вы успешно авторизировались",
                     "");
                 msg.ShowDialog();
-                */
                 MainWindow newWindow = new MainWindow(result.name, result.role);
                 newWindow.Show();
                 Application.Current.MainWindow.Close();
@@ -87,7 +85,7 @@ namespace diplom_loskutova.Page
                     var msg = new diplom_loskutova.NotificationDialog(
                         "Ошибка",
                         "Больше 3 неудачных попыток",
-                        "Для продолжения введите код с картинки");
+                        "Для продолжения введите текст капчи");
                     msg.ShowDialog();
                     diplom_loskutova.Page.Captcha page = new diplom_loskutova.Page.Captcha();
                     NavigationService.Navigate(page);

@@ -125,7 +125,11 @@ namespace diplom_loskutova.Page.AddOrChange
 
             if (ExistsDuplicate(telephone))
             {
-                MessageBox.Show("Запись с таким номером уже существует.", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                "Ошибка",
+                $"Запись с таким номером уже существует",
+                "");
+                msg.ShowDialog();
                 return;
             }
 
@@ -158,12 +162,20 @@ namespace diplom_loskutova.Page.AddOrChange
                     // Сохраняем новую запись в базе
                     adapter.Update(db.ГРАЖДАНИН);
                 }
-                MessageBox.Show("Данные успешно сохранены", "Успех");
+                var msg = new diplom_loskutova.NotificationDialog(
+                "Выполнено",
+                $"Данные успешно сохранены",
+                "");
+                msg.ShowDialog();
                 DataChanged?.Invoke(this, EventArgs.Empty); // Вызываем событие, что данные изменились, чтобы загрузить их заново на предыдущей странице
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var msg = new diplom_loskutova.NotificationDialog(
+                "Ошибка",
+                $"Ошибка: {ex.Message}",
+                "");
+                msg.ShowDialog();
             }
             NavigationService.GoBack();
         }
@@ -213,9 +225,11 @@ namespace diplom_loskutova.Page.AddOrChange
 
                     // Копируем файл
                     File.Copy(sourceFile, targetFile, true);
-
-                    MessageBox.Show($"Файл успешно скопирован в проект:\n{targetFile}", "Успех",
-                                  MessageBoxButton.OK, MessageBoxImage.Information);
+                    var msg = new diplom_loskutova.NotificationDialog(
+                        "Успех",
+                        $"Файл успешно скопирован в проект:\n{targetFile}",
+                        "");
+                    msg.ShowDialog();
                     
                     SavePhotoToDatabase(uniqueFileName);
                 }
@@ -237,6 +251,11 @@ namespace diplom_loskutova.Page.AddOrChange
                         targetFolder = desktopFolder;
 
                         File.Copy(sourceFile, targetFile, true);
+                        var msg = new diplom_loskutova.NotificationDialog(
+                            "Успех",
+                            $"Сохранено на Рабочий стол",
+                            $"Файл скопирован на рабочий стол:\n{targetFile}");
+                        msg.ShowDialog();
 
                         MessageBox.Show($"Файл скопирован на рабочий стол:\n{targetFile}", "Сохранено на Рабочий стол",
                                       MessageBoxButton.OK, MessageBoxImage.Information);
@@ -245,14 +264,23 @@ namespace diplom_loskutova.Page.AddOrChange
                     }
                     catch (Exception ex)
                     {
+                        var msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            $"Ошибка копирования: {ex.Message}",
+                            $"");
+                        msg.ShowDialog();
+
                         MessageBox.Show($"Ошибка копирования: {ex.Message}", "Ошибка",
                                       MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Неожиданная ошибка: {ex.Message}", "Ошибка",
-                                  MessageBoxButton.OK, MessageBoxImage.Error);
+                    var msg = new diplom_loskutova.NotificationDialog(
+                        "Ошибка",
+                        $"Ошибка: {ex.Message}",
+                        $"");
+                    msg.ShowDialog();
                 }
             }
 

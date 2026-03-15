@@ -3,18 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="720" Width="1080"
-        AllowsTransparency="True" Background="White">
+        AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
         <!-- Тень для верхней панели -->
-        <DropShadowEffect x:Key="WindowShadow" Color="Gray" Direction="270" ShadowDepth="5" BlurRadius="20" Opacity="0.5"/>
+        <DropShadowEffect x:Key="WindowShadow" Color="Gray" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
     </Window.Resources>
 
     <Border Background="{StaticResource White}" 
             BorderBrush="#E0E6ED" 
             BorderThickness="1"
             Effect="{StaticResource WindowShadow}"
-            Margin="2">
+            Margin="10">
         <DockPanel LastChildFill="True">
             <!-- Верхняя панель -->
             <Border DockPanel.Dock="Top" 
@@ -89,17 +89,28 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Приветственный текст -->
-                <Border Grid.ColumnSpan="3" Background="Transparent" 
-                        CornerRadius="16" Margin="20" Padding="40">
-                    <TextBlock x:Name="WelcomeText" 
-                              Text="Добро пожаловать&#x0a;&#x0a;Выберите раздел в меню для начала работы" 
-                              FontSize="28" FontWeight="Light"
-                              Foreground="{StaticResource GrayText}"
-                              HorizontalAlignment="Center" 
-                              VerticalAlignment="Center"
-                              TextAlignment="Center"
-                              TextWrapping="Wrap"
-                              LineHeight="36"/>
+                <Border x:Name="WelcomeText" Grid.ColumnSpan="3" Background="Transparent" 
+        CornerRadius="16" Margin="20" Padding="40">
+                    <StackPanel HorizontalAlignment="Center" 
+                VerticalAlignment="Center">
+
+                        <!-- Заголовок -->
+                        <TextBlock FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource GrayText}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"
+                   TextWrapping="Wrap">
+            Приложение «Учёт мер социальной поддержки»
+                        </TextBlock>
+
+                        <!-- Основной текст с отступами -->
+                        <TextBlock FontSize="20" FontWeight="Light"
+                   Foreground="{StaticResource GrayText}"
+                   TextAlignment="Left"
+                   TextWrapping="Wrap" 
+                   LineHeight="36"><Run Text="&#x9;ГАУ «КЦСОН Камышловского района» оказывает социальное обслуживание пожилым гражданам и инвалидам, организуя культурно-досуговые мероприятия для поддержания качества жизни."/><LineBreak/><Run Text="&#x9;Приложение «Учёт мер социальной поддержки» автоматизирует деятельность сотрудников ГАУ «КЦСОН Камышловского района» по организации культурно-досуговых мероприятий для граждан пожилого возраста."/><LineBreak/><Run Text="&#x9;В проекте рассматривается именно учёт мероприятий, так как это направление наименее автоматизировано — планирование кружков, обработка заявок и фиксация посещаемости ведутся в бумажных журналах и Excel, что требует больших временных затрат и приводит к ошибкам."/></TextBlock>
+
+                    </StackPanel>
                 </Border>
 
                 <!-- Frame для страниц -->

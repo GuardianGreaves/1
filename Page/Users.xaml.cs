@@ -137,6 +137,12 @@ namespace diplom_loskutova.Page
 
                     try
                     {
+                        var msg = new diplom_loskutova.NotificationDialog(
+                            "Выполнено",
+                            "Запись успешно удалена из базы данных",
+                            "");
+                        msg.ShowDialog();
+
                         adapter.Update(db.ПОЛЬЗОВАТЕЛЬ);
                         LoadData();
                     }

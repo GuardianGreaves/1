@@ -22,6 +22,7 @@
             <Setter Property="Foreground" Value="{StaticResource White}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="80"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -45,6 +46,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
 
     <Border Background="{StaticResource White}"
@@ -95,7 +97,7 @@
                 <Button x:Name="btnOK" Content="Oк" 
                         Style="{StaticResource DialogButtonStyle}"
                         Click="BtnOK_Click"
-                        Visibility="Visible" IsDefault="True"/>
+                        Visibility="Visible" IsDefault="True" Cursor="Hand"/>
 
                 <!-- Кнопка Отмена -->
                 <Button x:Name="btnCancel" Content="Отмена" 

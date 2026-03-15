@@ -66,7 +66,11 @@ namespace diplom_loskutova.Page.AddOrChange
             typeId = typeEventsManager.GetIdByName(ComboBoxTypeEvent.Text);
             if (userId == -1 || typeId == -1)
             {
-                MessageBox.Show("Запись не найдена", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            $"Запись не найдена",
+                            $"");
+                msg.ShowDialog();
                 return false;
             }
             return true;
@@ -108,7 +112,11 @@ namespace diplom_loskutova.Page.AddOrChange
 
             if (ExistsDuplicate(name, description))
             {
-                MessageBox.Show("Такая запись уже существует.", "Ошибка");
+                var msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            "Такая запись в базе данных уже существует",
+                            $"");
+                msg.ShowDialog();
                 return;
             }
 
@@ -141,12 +149,20 @@ namespace diplom_loskutova.Page.AddOrChange
                     // Сохраняем новую запись в базе
                     adapter.Update(db.МЕРОПРИЯТИЕ);
                 }
-                MessageBox.Show("Данные успешно сохранены", "Успех");
+                var msg = new diplom_loskutova.NotificationDialog(
+                            "Выполнено",
+                            $"Данные успешно сохранены",
+                            $"");
+                msg.ShowDialog();
                 DataChanged?.Invoke(this, EventArgs.Empty); // Вызываем событие, что данные изменились, чтобы загрузить их заново на предыдущей странице
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var msg = new diplom_loskutova.NotificationDialog(
+                            "Ошибка",
+                            $"Ошибка: {ex.Message}",
+                            $"");
+                msg.ShowDialog();
             }
         }
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\-\\Desktop\\dip\\diplom_loskutova.csproj": {}
+    "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj": {}
   },
   "projects": {
-    "C:\\Users\\-\\Desktop\\dip\\diplom_loskutova.csproj": {
+    "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\-\\Desktop\\dip\\diplom_loskutova.csproj",
+        "projectUniqueName": "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj",
         "projectName": "diplom_loskutova",
-        "projectPath": "C:\\Users\\-\\Desktop\\dip\\diplom_loskutova.csproj",
+        "projectPath": "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj",
         "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\-\\Desktop\\dip\\obj\\",
+        "outputPath": "C:\\Users\\-\\source\\repos\\1\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
