@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj": {}
+    "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj": {}
   },
   "projects": {
-    "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj": {
+    "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj",
+        "projectUniqueName": "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj",
         "projectName": "diplom_loskutova",
-        "projectPath": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj",
+        "projectPath": "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj",
         "packagesPath": "C:\\Users\\oboskalov_n\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\obj\\",
+        "outputPath": "C:\\Users\\oboskalov_n\\source\\repos\\1\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
@@ -47,6 +47,10 @@
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.4.0, )"
+            },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.4.1, )"
             },
             "MahApps.Metro.IconPacks.Material": {
               "target": "Package",

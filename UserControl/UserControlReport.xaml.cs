@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -221,7 +222,7 @@ ORDER BY
     Количество_Мероприятий DESC;
 ";
 
-
+        DataTable info;
         private string currentSqlQuery;
         public UserControlReport(int numberReport)
         {
@@ -421,6 +422,7 @@ ORDER BY
             if (!string.IsNullOrEmpty(currentSqlQuery))
             {
                 dt = dbHelper.ExecuteQuery(currentSqlQuery);
+                info = dt;
                 FillListViewWPF(dataGridReport, dt);
             }
         }
@@ -432,8 +434,11 @@ ORDER BY
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = Path.Combine(desktopPath, "отчет.docx");
+
             ExportWord exportWord = new ExportWord();
-            exportWord.export(currentSqlQuery, ""); // передаем текущий SQL-запрос
+            exportWord.ExportDataTableToWord(info, filePath, "Отчет"); // Передаем SQL-запрос как заголовок
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
