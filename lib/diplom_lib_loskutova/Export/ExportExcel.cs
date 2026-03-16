@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -9,52 +12,115 @@ namespace diplom_lib_loskutova.Export
     {
         ConnectionDataBase connectionDB = new ConnectionDataBase();
 
-        public void export(string query)
+        public void ExportDataTableToExcel(DataTable dataTable, string filePath, string sheetName = "Лист1")
         {
-            var datatable = new DataTable();
-
-            queryReturnData(query, datatable);
-
-            ExportToExcel(datatable);
-        }
-        public DataTable queryReturnData(string query, DataTable dataTable)
-        {
-            SqlConnection myCon = new SqlConnection(connectionDB.GetSqlConnection().ConnectionString);
-            myCon.Open();
-
-            SqlDataAdapter SDA = new SqlDataAdapter(query, myCon);
-            SDA.SelectCommand.ExecuteNonQuery();
-
-            SDA.Fill(dataTable);
-            return dataTable;
-        }
-        public void ExportToExcel(DataTable dataTable)
-        {
-            if (dataTable.Rows.Count > 0)
+            if (dataTable == null || dataTable.Rows.Count == 0)
             {
-                Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                excel.Application.Workbooks.Add(Type.Missing);
+                System.Windows.MessageBox.Show("Нет данных для экспорта!");
+                return;
+            }
 
-                for (int i = 1; i < dataTable.Columns.Count + 1; i++)
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
+            {
+                // 1. Рабочая книга
+                WorkbookPart workbookPart = spreadsheetDocument.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
+
+                // 2. Стили (ОБЯЗАТЕЛЬНО!)
+                AddStyles(workbookPart);
+
+                // 3. Лист
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet(new SheetData());
+
+                // 4. Регистрируем лист
+                Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
+                Sheet sheet = new Sheet()
                 {
-                    excel.Cells[1, i] = dataTable.Columns[i - 1].ColumnName;
-                }
+                    Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                    SheetId = 1,
+                    Name = sheetName
+                };
+                sheets.Append(sheet);
 
+                // 5. Данные листа
+                SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+                // 6. ЗАГОЛОВКИ (жирный шрифт)
+                Row headerRow = new Row() { RowIndex = 1 };
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    Cell cell = new Cell()
+                    {
+                        DataType = CellValues.String,
+                        CellValue = new CellValue(dataTable.Columns[i].ColumnName),
+                        StyleIndex = 1  // Жирный стиль
+                    };
+                    headerRow.Append(cell);
+                }
+                sheetData.Append(headerRow);
+
+                // 7. ДАННЫЕ
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
+                    Row row = new Row() { RowIndex = (uint)(i + 2) };
                     for (int j = 0; j < dataTable.Columns.Count; j++)
                     {
-                        excel.Cells[i + 2, j + 1] = dataTable.Rows[i][j].ToString();
+                        Cell cell = new Cell()
+                        {
+                            DataType = CellValues.String,
+                            CellValue = new CellValue(dataTable.Rows[i][j]?.ToString() ?? ""),
+                            StyleIndex = 0  // Обычный стиль
+                        };
+                        row.Append(cell);
                     }
+                    sheetData.Append(row);
                 }
 
-                excel.Columns.AutoFit();
-                excel.Visible = true;
+                // 8. СОХРАНЕНИЕ
+                workbookPart.Workbook.Save();
+                // using автоматически закроет документ
             }
-            else
-            {
-                MessageBox.Show("No data to export!");
-            }
+        }
+
+        private void AddStyles(WorkbookPart workbookPart)
+        {
+            WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
+            stylesPart.Stylesheet = new Stylesheet();
+
+            // Шрифты
+            Fonts fonts = new Fonts(
+                new Font(), // Обычный
+                new Font(new Bold()) // Жирный
+            )
+            { Count = 2u };
+
+            // Заливки
+            Fills fills = new Fills(
+                new Fill(), // По умолчанию
+                new Fill(new PatternFill() { PatternType = PatternValues.None })
+            )
+            { Count = 2u };
+
+            // Границы
+            Borders borders = new Borders(
+                new Border(), // По умолчанию
+                new Border()  // Простая граница
+            )
+            { Count = 2u };
+
+            // Форматы ячеек
+            CellFormats cellFormats = new CellFormats(
+                new CellFormat() { FontId = 0, FillId = 0, BorderId = 0 }, // Обычная
+                new CellFormat() { FontId = 1, FillId = 0, BorderId = 0, ApplyFont = true } // Жирная
+            )
+            { Count = 2u };
+
+            stylesPart.Stylesheet.Append(fonts);
+            stylesPart.Stylesheet.Append(fills);
+            stylesPart.Stylesheet.Append(borders);
+            stylesPart.Stylesheet.Append(cellFormats);
+            stylesPart.Stylesheet.Save();
         }
     }
 }

@@ -435,7 +435,7 @@ ORDER BY
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string filePath = Path.Combine(desktopPath, "отчет.docx");
+            string filePath = Path.Combine(desktopPath, "Отчет.docx");
 
             ExportWord exportWord = new ExportWord();
             exportWord.ExportDataTableToWord(info, filePath, "Отчет"); // Передаем SQL-запрос как заголовок
@@ -443,8 +443,11 @@ ORDER BY
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = Path.Combine(desktopPath, "Отчет.xlsx");
+
             ExportExcel exportExcel = new ExportExcel();
-            exportExcel.export(currentSqlQuery); // передаем текущий SQL-запрос
+            exportExcel.ExportDataTableToExcel(info, filePath, "Отчет"); // Передаем SQL-запрос как заголовок
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
