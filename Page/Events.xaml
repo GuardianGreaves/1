@@ -58,10 +58,10 @@
                               MouseDoubleClick="ListViewStatus_MouseDoubleClick"
                               Padding="0">
                         <ListView.View>
-                            <GridView AllowsColumnReorder="False">
+                            <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Мероприятия]}" Width="auto"/>
-                                <GridViewColumn Header="Пользователь" DisplayMemberBinding="{Binding [ID_Пользователя]}" Width="auto"/>
-                                <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding [ID_Типа_Мероприятия]}" Width="auto"/>
+                                <GridViewColumn Header="Пользователь" DisplayMemberBinding="{Binding [q]}" Width="auto"/>
+                                <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding [qq]}" Width="auto"/>
                                 <GridViewColumn Header="Название" DisplayMemberBinding="{Binding [Название]}" Width="auto"/>
                                 <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding [Описание]}" Width="auto"/>
                                 <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding [Дата_Мероприятия]}" Width="auto"/>

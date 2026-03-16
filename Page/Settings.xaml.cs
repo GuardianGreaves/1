@@ -144,5 +144,20 @@ namespace diplom_loskutova.Page
         {
 
         }
+
+        private void TechnicalTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UserManualButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OperatorManualButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

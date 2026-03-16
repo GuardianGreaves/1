@@ -1,22 +1,22 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj": {}
+    "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj": {}
   },
   "projects": {
-    "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj": {
+    "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj",
+        "projectUniqueName": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj",
         "projectName": "diplom_loskutova",
-        "projectPath": "C:\\Users\\-\\source\\repos\\1\\diplom_loskutova.csproj",
-        "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\-\\source\\repos\\1\\obj\\",
+        "projectPath": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\diplom_loskutova.csproj",
+        "packagesPath": "C:\\Users\\oboskalov_n\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\oboskalov_n\\Source\\Repos\\1\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
-          "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\oboskalov_n\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -63,6 +63,41 @@
             </Setter>
         </Style>
 
+        <!-- Стиль кнопки инструкций -->
+        <Style x:Key="InstructionsButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource LightBlue}"/>
+            <Setter Property="Foreground" Value="{StaticResource Blue600}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Blue400}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10" 
+                                Padding="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue50}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource Blue600}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue200}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Стиль кнопки назад - ТОЧНО ТАК ЖЕ -->
         <Style x:Key="BackButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -111,10 +146,11 @@
                 <!-- Заголовок -->
                 <RowDefinition Height="Auto"/>
                 <!-- Форма -->
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <!-- Раздел инструкций -->
+                <RowDefinition Height="Auto"/>
                 <!-- Кнопки -->
             </Grid.RowDefinitions>
-
 
             <!-- Заголовок формы -->
             <TextBlock Grid.Row="1" 
@@ -196,19 +232,49 @@
                 </StackPanel>
             </Grid>
 
+            <!-- РАЗДЕЛ ИНСТРУКЦИЙ -->
+            <Border Grid.Row="3" 
+                    Background="Transparent" 
+                    CornerRadius="12" 
+                    Margin="10" 
+                    Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Инструкции и документация" 
+                               Style="{StaticResource PageHeaderStyle}"
+                               Margin="0,0,0,15"
+                               HorizontalAlignment="Center"/>
+
+                    <WrapPanel HorizontalAlignment="Center">
+                        <Button x:Name="TechnicalTaskButton" 
+                                Content="Техническое задание" 
+                                Style="{StaticResource InstructionsButtonStyle}"
+                                Width="220"
+                                Click="TechnicalTaskButton_Click"/>
+
+                        <Button x:Name="UserManualButton" 
+                                Content="Руководство пользователя" 
+                                Style="{StaticResource InstructionsButtonStyle}"
+                                Width="240"
+                                Click="UserManualButton_Click"/>
+
+                        <Button x:Name="OperatorManualButton" 
+                                Content="Руководство оператора" 
+                                Style="{StaticResource InstructionsButtonStyle}"
+                                Width="220"
+                                Click="OperatorManualButton_Click"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
             <!-- Кнопки действий -->
-            <StackPanel Grid.Row="3" Orientation="Horizontal" 
-                        HorizontalAlignment="Right" 
+            <StackPanel Grid.Row="4" Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
                         Margin="10">
-                <Button x:Name="InstructionsButton" 
-                        Content="Инструкции" 
-                        Style="{StaticResource FormButtonStyle}"
-                        Width="160" Height="40"
-                        Click="InstructionsButton_Click"/>
                 <Button x:Name="TestConnectionButton" 
                         Content="Проверить подключение" 
                         Style="{StaticResource FormButtonStyle}"
-                        Width="200" Height="40"
+                        Width="250" Height="40"
                         Click="TestConnectionButton_Click"/>
                 <Button x:Name="SaveConnectionButton" 
                         Content="Сохранить" 

@@ -102,40 +102,16 @@ namespace diplom_loskutova.Page
         {
             try
             {
-                string connectionString = ConfigurationManager.ConnectionStrings[
-                    "diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString"
-                ].ConnectionString;
-
-                string query = @"
-            SELECT М.ID_Мероприятия, М.ID_Пользователя, М.ID_Типа, 
-                   П.Имя + ' ' + П.Фамилия AS q, 
-                   Т.Название AS qq, 
-                   М.Название, М.Описание, М.Дата_Мероприятия, М.Бюджет
-            FROM МЕРОПРИЯТИЕ AS М 
-            INNER JOIN ПОЛЬЗОВАТЕЛЬ AS П ON М.ID_Пользователя = П.ID_Пользователя 
-            INNER JOIN ТИП_МЕРОПРИЯТИЯ AS Т ON М.ID_Типа = Т.ID_Типа";
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                {
-                    DataTable dt = new DataTable();
-
-                    conn.Open();
-                    adapter.Fill(dt);
-
-                    listViewEvents.ItemsSource = dt.DefaultView;
-                }
+                adapter.FillByWithUsersAndTypes(db.МЕРОПРИЯТИЕ);
+                listViewEvents.ItemsSource = db.ГРАЖДАНИН.DefaultView;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}\n\nStackTrace: {ex.StackTrace}", "Ошибка загрузки");
                 var msg = new diplom_loskutova.NotificationDialog(
-                "Ошибка",
-                "Ошибка загрузки данных:",
-                $"Ошибка: {ex.Message}\n\nStackTrace: {ex.StackTrace}");
+                    "Ошибка",
+                    "Ошибка загрузки данных:",
+                    $"{ex.Message}");
                 msg.ShowDialog();
-
             }
         }
 
