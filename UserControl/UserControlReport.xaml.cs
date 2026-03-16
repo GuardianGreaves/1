@@ -353,6 +353,7 @@ ORDER BY
             dataGridReport.ItemsSource = dt.DefaultView;
         }
 
+        string namereport;
         private void InitializeReport(int _numberReport)
         {
             DbHelper dbHelper = new DbHelper();
@@ -434,20 +435,42 @@ ORDER BY
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string filePath = Path.Combine(desktopPath, "Отчет.docx");
+            var saveDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Excel файлы (*.xlsx)|*.xlsx|Word файлы (*.docx)|*.docx",
+                FileName = $"Отчет_{DateTime.Now:ddMMyyyy_HHmmss}.docx",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
 
-            ExportWord exportWord = new ExportWord();
-            exportWord.ExportDataTableToWord(info, filePath, "Отчет"); // Передаем SQL-запрос как заголовок
+            if (saveDialog.ShowDialog() == true)
+            {
+                string filePath = saveDialog.FileName;
+
+                if (Path.GetExtension(filePath).ToLower() == ".docx")
+                    new ExportWord().ExportDataTableToWord(info, filePath, "Отчет");
+                else
+                    new ExportExcel().ExportDataTableToExcel(info, filePath, "Отчет");
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string filePath = Path.Combine(desktopPath, "Отчет.xlsx");
+            var saveDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Excel файлы (*.xlsx)|*.xlsx|Word файлы (*.docx)|*.docx",
+                FileName = $"Отчет_{DateTime.Now:ddMMyyyy_HHmmss}.xlsx",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
 
-            ExportExcel exportExcel = new ExportExcel();
-            exportExcel.ExportDataTableToExcel(info, filePath, "Отчет"); // Передаем SQL-запрос как заголовок
+            if (saveDialog.ShowDialog() == true)
+            {
+                string filePath = saveDialog.FileName;
+
+                if (Path.GetExtension(filePath).ToLower() == ".docx")
+                    new ExportWord().ExportDataTableToWord(info, filePath, "Отчет");
+                else
+                    new ExportExcel().ExportDataTableToExcel(info, filePath, "Отчет");
+            }
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
