@@ -80,6 +80,7 @@
     <Compile Include="Class\ComboBoxHelper.cs" />
     <Compile Include="Class\DbHelper.cs" />
     <Compile Include="Class\EventsManager.cs" />
+    <Compile Include="Class\ImageFileManager.cs" />
     <Compile Include="Class\PathHelper.cs" />
     <Compile Include="Class\RoleVisibilityManager.cs" />
     <Compile Include="Class\StatusManager.cs" />

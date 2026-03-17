@@ -1,9 +1,11 @@
 ﻿using diplom_lib_loskutova.Export;
+using ScottPlot;
 using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -396,6 +398,9 @@ ORDER BY
                     break;
                 case 9:
                     NameReport.Text = "Бюджетный отчет по мероприятиям";
+
+                    chartColumn.Width = new GridLength(350);
+                    BuildBudgetByEventTypeChart();
                     currentSqlQuery = queryReport9;
                     break;
                 case 10:
@@ -427,6 +432,57 @@ ORDER BY
                 FillListViewWPF(dataGridReport, dt);
             }
         }
+        private string connectionString = ConfigurationManager.ConnectionStrings["diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString"].ConnectionString;
+
+        private void BuildBudgetByEventTypeChart()
+        {
+            var budgetStats = GetBudgetByEventTypeStatistics();
+
+            if (budgetStats.Rows.Count == 0)
+                return;
+
+            WpfPlot1.Plot.Clear();
+
+            double[] values = budgetStats.AsEnumerable()
+                .Select(row => Convert.ToDouble(row["Общий_Бюджет"]))
+                .ToArray();
+
+            string[] labels = budgetStats.AsEnumerable()
+                .Select(row => row["Тип_Мероприятия"].ToString())
+                .ToArray();
+
+            double[] positions = Enumerable.Range(1, values.Length).Select(x => (double)x).ToArray();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                double[] xs = { positions[i] };
+                double[] ys = { values[i] };
+
+                var bar = WpfPlot1.Plot.Add.Bars(xs, ys);
+                bar.LegendText = labels[i];
+            }
+
+            WpfPlot1.Plot.Title("Бюджет по типам мероприятий");
+            WpfPlot1.Plot.ShowLegend(Alignment.UpperRight);
+            WpfPlot1.Plot.Axes.Margins(bottom: 0.1);
+            WpfPlot1.Plot.Axes.SetLimitsY(0, values.Max() * 1.1);
+
+            WpfPlot1.Plot.Axes.Bottom.Label.Text = "Типы мероприятий";
+            WpfPlot1.Plot.Axes.Left.Label.Text = "Общий бюджет";
+
+            WpfPlot1.Refresh();
+        }
+
+        private DataTable GetBudgetByEventTypeStatistics()
+        {
+            DataTable dt = new DataTable();
+            using (var adapter = new SqlDataAdapter(queryReport9, connectionString))
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
 
         public void FillListViewWPF(System.Windows.Controls.DataGrid listView, DataTable dt)
         {

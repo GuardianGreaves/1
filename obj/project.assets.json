@@ -6016,11 +6016,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj",
+      "projectUniqueName": "C:\\Users\\oboskalov_n\\Desktop\\dip\\diplom_loskutova.csproj",
       "projectName": "diplom_loskutova",
-      "projectPath": "C:\\Users\\oboskalov_n\\source\\repos\\1\\diplom_loskutova.csproj",
+      "projectPath": "C:\\Users\\oboskalov_n\\Desktop\\dip\\diplom_loskutova.csproj",
       "packagesPath": "C:\\Users\\oboskalov_n\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\oboskalov_n\\source\\repos\\1\\obj\\",
+      "outputPath": "C:\\Users\\oboskalov_n\\Desktop\\dip\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "UsingMicrosoftNETSdk": false,

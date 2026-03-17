@@ -8,7 +8,7 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource Blue600}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="0,0,0,20"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
@@ -17,7 +17,7 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource Blue600}"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 

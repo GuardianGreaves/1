@@ -116,7 +116,7 @@
 
             <!-- Панель фильтров и график -->
             <Border Grid.Column="1" Background="{StaticResource White}" 
-                    CornerRadius="16" Margin="5 0 5 5" Padding="5">
+                    CornerRadius="16" Margin="5 0 10 10" Padding="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

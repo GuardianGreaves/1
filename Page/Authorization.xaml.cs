@@ -32,6 +32,7 @@ namespace diplom_loskutova.Page
             }
         }
 
+
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
             // Используем новый класс шифрования скремблер
@@ -39,67 +40,54 @@ namespace diplom_loskutova.Page
             var encryptLogin = encryptor.Encrypt(TextBoxLogin.Text.Trim());
             var encryptPassword = encryptor.Encrypt(TextBoxPassword.Password.Trim());
 
+            // Проверка пустых полей ДОНАЙТИ
             if (string.IsNullOrEmpty(encryptLogin) || string.IsNullOrEmpty(encryptPassword))
             {
+                ShowError("Заполните поля", "Введите логин и пароль для входа в систему");
+                return;
+            }
+
+            // Проверка пользователя в БД
+            DbHelper db = new DbHelper(_connectionString);
+            var result = db.CheckUser(encryptLogin, encryptPassword);
+
+            if (result.count > 0)
+            {
+                // Успешный вход
+                var msg = new diplom_loskutova.NotificationDialog(
+                    "Успех", "Вы успешно авторизировались", "");
+                msg.ShowDialog();
+
+                MainWindow newWindow = new MainWindow(result.name, result.role);
+                newWindow.Show();
+                Application.Current.MainWindow.Close();
+                errorLogIn = 0; // Сброс счётчика
+            }
+            else
+            {
                 errorLogIn++;
-                if (errorLogIn >= 3)
+
+                if (errorLogIn >= 3) // ИСПРАВЛЕНО: >= 3
                 {
                     var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка",
-                        "Больше 3 неудачных попыток",
+                        "Ошибка", "Больше 3 неудачных попыток",
                         "Для продолжения введите код с картинки");
                     msg.ShowDialog();
                     NavigationService.Navigate(new diplom_loskutova.Page.Captcha());
                 }
                 else
                 {
-                    var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка",
-                        "Заполните поля",
-                        "Введите логин и пароль для входа в систему");
-                    msg.ShowDialog();
-                }
-                return;
-            }
-
-            // Передаём строку подключения в DbHelper
-            DbHelper db = new DbHelper(_connectionString);
-            var result = db.CheckUser(encryptLogin, encryptPassword);
-
-            if (result.count > 0)
-            {
-                var msg = new diplom_loskutova.NotificationDialog(
-                    "Успех",
-                    "Вы успешно авторизировались",
-                    "");
-                msg.ShowDialog();
-                MainWindow newWindow = new MainWindow(result.name, result.role);
-                newWindow.Show();
-                Application.Current.MainWindow.Close();
-            }
-            else
-            {
-                errorLogIn++;
-                if (errorLogIn > 3)
-                {
-                    var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка",
-                        "Больше 3 неудачных попыток",
-                        "Для продолжения введите текст капчи");
-                    msg.ShowDialog();
-                    diplom_loskutova.Page.Captcha page = new diplom_loskutova.Page.Captcha();
-                    NavigationService.Navigate(page);
-                }
-                else
-                {
-                    var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка",
-                        "Заполните поля",
-                        "Неверный логин или пароль");
-                    msg.ShowDialog();
-
+                    ShowError("Неверные данные", "Неверный логин или пароль");
                 }
             }
+        }
+
+        // ВЫНЕСЕННАЯ МЕТОД ДЛЯ УБИРАНИЯ ДУБЛИРОВАНИЯ
+        private void ShowError(string title, string message)
+        {
+            errorLogIn++;
+            var msg = new diplom_loskutova.NotificationDialog("Ошибка", title, message);
+            msg.ShowDialog();
         }
 
         private void TextBoxLogin_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -126,6 +114,11 @@ namespace diplom_loskutova.Page
             }
         }
 
-
+        private void GuestIn_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow newWindow = new MainWindow("Гость", "3");
+            newWindow.Show();
+            Application.Current.MainWindow.Close();
+        }
     }
 }

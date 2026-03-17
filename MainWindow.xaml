@@ -14,7 +14,8 @@
             BorderBrush="#E0E6ED" 
             BorderThickness="1"
             Effect="{StaticResource WindowShadow}"
-            Margin="10">
+            Margin="10"
+            MouseDown="Border_MouseDown">
         <DockPanel LastChildFill="True">
             <!-- Верхняя панель -->
             <Border DockPanel.Dock="Top" 

@@ -56,7 +56,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="12">
+                                CornerRadius="12"
+                                Padding="40 0 40 0">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -68,6 +69,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="GuestButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource Blue400}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="32,16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="12"
+                                Padding="20 0 20 0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Blue500}"/>
+                                <Setter Property="Foreground" Value="{StaticResource White}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Page.Resources>
 
     <Grid>
@@ -106,7 +135,7 @@
                     <Border Grid.Column="0" Width="52" Height="52" 
                             Background="Transparent" 
                             CornerRadius="26" 
-                            VerticalAlignment="Center" Margin="12,0,16,0">
+                            VerticalAlignment="Center" Margin="10,0,10,0">
                         <iconPacks:PackIconMaterial Kind="EmailOutline" 
                                                   Width="24" Height="24" 
                                                   Foreground="{StaticResource Blue600}"
@@ -121,11 +150,12 @@
                              VerticalAlignment="Center" 
                              Background="Transparent" 
                              BorderThickness="0"
-                             Padding="0,0,16,0"
+                             Padding="0,0,0,0"
                              TextChanged="TextBoxLogin_TextChanged"
                              Foreground="{StaticResource DarkText}"
                              CaretBrush="{StaticResource Blue400}"
-                             VerticalContentAlignment="Center"/>
+                             VerticalContentAlignment="Center"
+                             Height="45"/>
 
                     <!-- Подсказка -->
                     <TextBlock x:Name="TextBlockLogin" 
@@ -154,7 +184,7 @@
                     <Border Grid.Column="0" Width="52" Height="52" 
                             Background="Transparent" 
                             CornerRadius="26" 
-                            VerticalAlignment="Center" Margin="12,0,16,0">
+                            VerticalAlignment="Center" Margin="10,0,10,0">
                         <iconPacks:PackIconMaterial Kind="LockOutline" 
                                                   Width="24" Height="24" 
                                                   Foreground="{StaticResource Blue600}"
@@ -166,13 +196,15 @@
                     <PasswordBox x:Name="TextBoxPassword" 
                                  Grid.Column="1" 
                                  FontSize="20" 
-                                 VerticalAlignment="Center" 
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
                                  Background="Transparent" 
                                  BorderThickness="0"
-                                 Padding="0,0,16,0"
+                                 Padding="0,0,0,0"
                                  PasswordChanged="TextBoxPassword_PasswordChanged"
                                  Foreground="{StaticResource DarkText}"
-                                 CaretBrush="{StaticResource Blue400}"/>
+                                 CaretBrush="{StaticResource Blue400}"
+                                 Height="45"/>
 
                     <!-- Подсказка -->
                     <TextBlock x:Name="TextBlockPassword" 
@@ -186,13 +218,27 @@
                 </Grid>
             </Border>
 
-            <!-- Кнопка входа -->
-            <Button x:Name="SignIn" 
-                    Grid.Row="4"
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="SignIn"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
                     Content="Войти" 
                     Style="{StaticResource LoginButtonStyle}"
-                    Width="420" Height="60"
+                    Height="60"
                     Click="SignIn_Click"/>
+                <Button x:Name="GuestIn"                     
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Content="Гостевой режим" 
+                    Style="{StaticResource GuestButtonStyle}"
+                    Height="60"
+                    Click="GuestIn_Click"/>
+                <!-- Измените обработчик, если нужно -->
+            </Grid>
         </Grid>
     </Grid>
 </Page>

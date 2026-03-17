@@ -22,7 +22,7 @@
             </Grid.RowDefinitions>
 
             <!-- Верхняя панель с кнопками - ТОЧНО ТАК ЖЕ -->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
                 <Button Style="{StaticResource BackButtonStyle}" Click="BtnBack">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconMaterial Kind="ArrowLeft" 
@@ -138,9 +138,10 @@
                 <!-- ПРАВЫЙ СТОЛБЕЦ - ТОЛЬКО ФОТО -->
                 <Border Grid.Column="1" Margin="10" VerticalAlignment="Top">
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image x:Name="PhotoImage" 
+                        <Image x:Name="PhotoImage"
+                   
                    Width="200" Height="200" 
-                   Stretch="UniformToFill" 
+                   Stretch="Fill" 
                    Source="/Resources/Image/1.jpg"/>
                         <Button x:Name="ButtonSelectPhoto" Content="Выбрать фото" 
                     Style="{StaticResource FormButtonStyle}"

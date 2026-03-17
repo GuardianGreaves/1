@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using diplom_loskutova.Class;
+using Microsoft.Win32;
 using System;
 using System.Configuration;
 using System.Data;
@@ -91,7 +92,7 @@ namespace diplom_loskutova.Page.AddOrChange
                 else
                 {
                     PhotoImage.Source = null;
-                    // MessageBox.Show($"Фото не найдено:\n{projectPath}\n{desktopPath}"); // Отладка
+                    MessageBox.Show($"Фото не найдено:\n{projectPath}\n{desktopPath}"); // Отладка
                 }
             }
         }
@@ -190,100 +191,37 @@ namespace diplom_loskutova.Page.AddOrChange
         string photosSubdirectory = "Image";
         string selectedPhotoFullPath;  // полный путь к выбранному файлу
 
+        private readonly ImageFileManager _imageManager = new ImageFileManager();
+
         private void BtnSelectPhoto(object sender, RoutedEventArgs e)
         {
-            // Открываем диалог выбора файла
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Title = "Выберите изображение гражданина",
-                Filter = "Изображения|*.jpg;*.jpeg;*.png;*.bmp;*.gif|Все файлы|*.*"
-            };
+            var dialog = new OpenFileDialog() { Filter = "Изображения|*.jpg;*.png" };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (dialog.ShowDialog() == true)
             {
-                string sourceFile = openFileDialog.FileName;
-                string projectFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Image-citizen");
-                string desktopFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Image-citizen");
-                string targetFolder = null;
-                string targetFile = null;
-
                 try
                 {
-                    // Пробуем создать/использовать папку в проекте
-                    if (!Directory.Exists(projectFolder))
-                    {
-                        Directory.CreateDirectory(projectFolder);
-                    }
+                    // 1. ✅ СОХРАНЯЕМ ФАЙЛ (получаем реальный путь)
+                    string savedFilePath = _imageManager.SaveImageWithUniqueName(dialog.FileName);
+                    string fileNameOnly = Path.GetFileName(savedFilePath);  // только имя файла
 
-                    // Создаем уникальное имя файла с timestamp
-                    string fileNameWithoutExt = Path.GetFileNameWithoutExtension(sourceFile);
-                    string fileExt = Path.GetExtension(sourceFile);
-                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff"); // 20260204_152323_456
-                    string uniqueFileName = $"{fileNameWithoutExt}_{timestamp}{fileExt}";
-                    targetFile = Path.Combine(projectFolder, uniqueFileName);
-                    targetFolder = projectFolder;
-
-                    // Копируем файл
-                    File.Copy(sourceFile, targetFile, true);
+                    // 2. ✅ СОХРАНЯЕМ В БД (файл УЖЕ существует!)
+                    SavePhotoToDatabase(fileNameOnly);
                     var msg = new diplom_loskutova.NotificationDialog(
-                        "Успех",
-                        $"Файл успешно скопирован в проект:\n{targetFile}",
-                        "");
+                        "Выполнено",
+                        $"Файл сохранен",
+                        $"Путь к файлу: {savedFilePath}");
                     msg.ShowDialog();
-                    
-                    SavePhotoToDatabase(uniqueFileName);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    try
-                    {
-                        // Если нет прав на папку проекта, используем рабочий стол
-                        if (!Directory.Exists(desktopFolder))
-                        {
-                            Directory.CreateDirectory(desktopFolder);
-                        }
-
-                        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(sourceFile);
-                        string fileExt = Path.GetExtension(sourceFile);
-                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
-                        string uniqueFileName = $"{fileNameWithoutExt}_{timestamp}{fileExt}";
-                        targetFile = Path.Combine(desktopFolder, uniqueFileName);
-                        targetFolder = desktopFolder;
-
-                        File.Copy(sourceFile, targetFile, true);
-                        var msg = new diplom_loskutova.NotificationDialog(
-                            "Успех",
-                            $"Сохранено на Рабочий стол",
-                            $"Файл скопирован на рабочий стол:\n{targetFile}");
-                        msg.ShowDialog();
-
-                        MessageBox.Show($"Файл скопирован на рабочий стол:\n{targetFile}", "Сохранено на Рабочий стол",
-                                      MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        SavePhotoToDatabase(uniqueFileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        var msg = new diplom_loskutova.NotificationDialog(
-                            "Ошибка",
-                            $"Ошибка копирования: {ex.Message}",
-                            $"");
-                        msg.ShowDialog();
-
-                        MessageBox.Show($"Ошибка копирования: {ex.Message}", "Ошибка",
-                                      MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
                 catch (Exception ex)
                 {
                     var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка",
-                        $"Ошибка: {ex.Message}",
-                        $"");
+                    "Ошибка",
+                    $"Ошибка: {ex.Message}",
+                    "");
                     msg.ShowDialog();
                 }
             }
-
         }
 
         private void SavePhotoToDatabase(string relativePath)

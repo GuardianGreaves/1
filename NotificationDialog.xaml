@@ -8,6 +8,9 @@
         WindowStyle="None">
 
     <Window.Resources>
+
+        <DropShadowEffect x:Key="WindowShadow" Color="Gray" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+
         <SolidColorBrush x:Key="Blue400" Color="#2196F3"/>
         <SolidColorBrush x:Key="Blue500" Color="#1E88E5"/>
         <SolidColorBrush x:Key="Blue600" Color="#1976D2"/>
@@ -50,11 +53,13 @@
     </Window.Resources>
 
     <Border Background="{StaticResource White}"
+            Effect="{StaticResource WindowShadow}"
             CornerRadius="16"
             BorderThickness="1"
             BorderBrush="#E0E6ED"
             Width="420" Height="250"
-            Margin="0">
+            Margin="10"
+            MouseDown="Border_MouseDown">
         <Grid Cursor="Hand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
