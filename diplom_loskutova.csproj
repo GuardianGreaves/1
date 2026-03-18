@@ -70,6 +70,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -315,6 +316,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rdlc\LeveCitizenActivity.rdlc" />
     <None Include="DP_2025_LoskutovaDataSet.xsc">
       <DependentUpon>DP_2025_LoskutovaDataSet.xsd</DependentUpon>
     </None>
@@ -368,6 +370,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging">
       <Version>10.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ReportViewer.Common">
+      <Version>10.0.40219.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ReportViewer.WinForms">
+      <Version>10.0.40219.1</Version>
     </PackageReference>
     <PackageReference Include="ScottPlot.WPF">
       <Version>5.1.57</Version>

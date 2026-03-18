@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:diplom_loskutova" xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
-             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:diplom_loskutova"
+             xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
+             xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid Style="{StaticResource DefaultPage}">
@@ -16,7 +19,9 @@
             <RowDefinition Height="Auto"/>
             <!-- Фильтры -->
             <RowDefinition Height="*"/>
-            <!-- DataGrid -->
+            <!-- DataGrid + диаграмма -->
+            <RowDefinition Height="Auto"/>
+            <!-- Отчёт ниже -->
         </Grid.RowDefinitions>
 
         <!-- 1. Заголовок -->
@@ -112,5 +117,10 @@
                 </Border>
             </Grid>
         </Border>
+
+        <!-- 4. ReportViewer под DataGrid -->
+        <WindowsFormsHost Grid.Row="4" Margin="10">
+            <rv:ReportViewer x:Name="_reportViewer"/>
+        </WindowsFormsHost>
     </Grid>
 </UserControl>

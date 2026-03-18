@@ -512,6 +512,31 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.ReportViewer.Common/10.0.40219.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        }
+      },
+      "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -1475,6 +1500,31 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.ReportViewer.Common/10.0.40219.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        }
+      },
+      "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -2355,6 +2405,31 @@
         },
         "build": {
           "buildTransitive/net462/_._": {}
+        }
+      },
+      "Microsoft.ReportViewer.Common/10.0.40219.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        }
+      },
+      "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
         }
       },
       "Newtonsoft.Json/13.0.1": {
@@ -3242,6 +3317,31 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.ReportViewer.Common/10.0.40219.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        }
+      },
+      "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -4125,6 +4225,31 @@
         },
         "build": {
           "buildTransitive/net462/_._": {}
+        }
+      },
+      "Microsoft.ReportViewer.Common/10.0.40219.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.Common.dll": {},
+          "lib/Microsoft.ReportViewer.DataVisualization.dll": {},
+          "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll": {}
+        }
+      },
+      "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.ReportViewer.WinForms.dll": {}
         }
       },
       "Newtonsoft.Json/13.0.1": {
@@ -5232,6 +5357,32 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Microsoft.ReportViewer.Common/10.0.40219.1": {
+      "sha512": "BvYKVVgeRwdwiqCDUdIbaV179YIXg4RD+MlHI4KndReULmM2xO6KGlYmxOOMB/Lq5ktwFuMVyChbZgpgUqEgHw==",
+      "type": "package",
+      "path": "microsoft.reportviewer.common/10.0.40219.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.ReportViewer.Common.dll",
+        "lib/Microsoft.ReportViewer.DataVisualization.dll",
+        "lib/Microsoft.ReportViewer.ProcessingObjectModel.dll",
+        "microsoft.reportviewer.common.10.0.40219.1.nupkg.sha512",
+        "microsoft.reportviewer.common.nuspec"
+      ]
+    },
+    "Microsoft.ReportViewer.WinForms/10.0.40219.1": {
+      "sha512": "jUPFTKTQ+HHr2uttku6fKoxTR4nsQfQEaTqABtopWPHRvRjKHTSKfexMqW0SwnWToQIAG5u2T5w/9j0iGW44mQ==",
+      "type": "package",
+      "path": "microsoft.reportviewer.winforms/10.0.40219.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.ReportViewer.WinForms.dll",
+        "microsoft.reportviewer.winforms.10.0.40219.1.nupkg.sha512",
+        "microsoft.reportviewer.winforms.nuspec"
+      ]
+    },
     "Newtonsoft.Json/13.0.1": {
       "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "type": "package",
@@ -6002,6 +6153,8 @@
       "DocumentFormat.OpenXml >= 3.4.1",
       "MahApps.Metro.IconPacks.Material >= 6.1.0",
       "Microsoft.Extensions.Logging >= 10.0.2",
+      "Microsoft.ReportViewer.Common >= 10.0.40219.1",
+      "Microsoft.ReportViewer.WinForms >= 10.0.40219.1",
       "ScottPlot.WPF >= 5.1.57",
       "Syncfusion.Pdf.Wpf >= 31.2.12",
       "System.Data.SqlClient >= 4.9.1",
@@ -6068,6 +6221,14 @@
           "Microsoft.Extensions.Logging": {
             "target": "Package",
             "version": "[10.0.2, )"
+          },
+          "Microsoft.ReportViewer.Common": {
+            "target": "Package",
+            "version": "[10.0.40219.1, )"
+          },
+          "Microsoft.ReportViewer.WinForms": {
+            "target": "Package",
+            "version": "[10.0.40219.1, )"
           },
           "ScottPlot.WPF": {
             "target": "Package",

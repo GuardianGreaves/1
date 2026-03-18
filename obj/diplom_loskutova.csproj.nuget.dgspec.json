@@ -60,6 +60,14 @@
               "target": "Package",
               "version": "[10.0.2, )"
             },
+            "Microsoft.ReportViewer.Common": {
+              "target": "Package",
+              "version": "[10.0.40219.1, )"
+            },
+            "Microsoft.ReportViewer.WinForms": {
+              "target": "Package",
+              "version": "[10.0.40219.1, )"
+            },
             "ScottPlot.WPF": {
               "target": "Package",
               "version": "[5.1.57, )"
