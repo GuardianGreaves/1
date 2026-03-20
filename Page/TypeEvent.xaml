@@ -66,51 +66,6 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
-                    <!-- Статистика + пагинация ВНУТРИ Border - ТОЧНО ТАК ЖЕ -->
-                    <Grid Grid.Row="1" Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <!-- Страница -->
-                            <ColumnDefinition Width="*"/>
-                            <!-- Записей X из Y -->
-                            <ColumnDefinition Width="Auto"/>
-                            <!-- Навигация -->
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" 
-                                   x:Name="tbPageNumber"
-                                   Text="Страница 1" 
-                                   FontSize="14"
-                                   Foreground="{StaticResource Blue600}"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"
-                                   Margin="0,0,20,0"/>
-
-                        <TextBlock Grid.Column="1" 
-                                   x:Name="tbRecordsInfo"
-                                   Text="Записей 15 из 34" 
-                                   FontSize="14"
-                                   Foreground="{StaticResource GrayText}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Width="75">
-                            <Button x:Name="btnPrev" 
-                                    Width="30" Height="25" 
-                                    Content="‹" 
-                                    Margin="0,0,5,0"
-                                    Style="{StaticResource ActionButtonStyle}"
-                                    Click="BtnPrev_Click"/>
-                            <Button x:Name="btnNext" 
-                                    Width="30" Height="25" 
-                                    Content="›"
-                                    Style="{StaticResource ActionButtonStyle}"
-                                    Click="BtnNext_Click"/>
-                        </StackPanel>
-                    </Grid>
-
-
                 </Grid>
             </Border>
 

@@ -1,8 +1,10 @@
-﻿using ScottPlot;
+﻿using Microsoft.Reporting.WinForms;
+using ScottPlot;
 using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -178,7 +180,7 @@ namespace diplom_loskutova.Page
                     "btnYesCancel");
                     var result = msg.ShowDialog();
                     if (result != true)
-                        return; 
+                        return;
                 }
 
                 try
@@ -233,12 +235,12 @@ namespace diplom_loskutova.Page
         {
             if (TryGetSelectedRow(out DataRowView selectedRowView))
                 OpenPage(true, selectedRowView);
-            else { 
+            else {
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Ошибка",
                     "Выберите строку для редактирования",
                     "Вы можете дважды кликнуть или выделить нужную строку и нажать Редактировать");
-            msg.ShowDialog();
+                msg.ShowDialog();
             }
         }
 
@@ -257,12 +259,13 @@ namespace diplom_loskutova.Page
         }
 
         private void BtnResetFilter_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             DatePickerSearch.Text = "";
             TextBoxSearchFIO.Text = "";             
             TextBoxSearchTelephone.Text = "";          
-            ApplyFilter();                          
+            ApplyFilter();
         }
+
         private void ApplyFilter()
         {
             if (db.ГРАЖДАНИН.Rows.Count == 0)

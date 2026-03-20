@@ -14,7 +14,7 @@ namespace diplom_loskutova.Page
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
         private DataTable statusTable = new DataTable();
         private int currentPage = 1;
-        private int pageSize = 5;
+        private int pageSize = 2;
         private int totalRecords = 0;
         private string connectionString = ConfigurationManager.ConnectionStrings["diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString"].ConnectionString;
         private DP_2025_LoskutovaDataSetTableAdapters.ЗАЯВКАTableAdapter relatedAdapter = new DP_2025_LoskutovaDataSetTableAdapters.ЗАЯВКАTableAdapter();

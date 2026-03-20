@@ -77,8 +77,11 @@ namespace diplom_loskutova.Page
         }
 
         private void Report13_Click(object sender, System.Windows.RoutedEventArgs e)
+
         {
-            OpenPage(13);
+            diplom_loskutova.Page._1 page;
+            page = new diplom_loskutova.Page._1();
+            NavigationService.Navigate(page);
         }
-    }
+}
 }

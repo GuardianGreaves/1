@@ -3,10 +3,26 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation"
+      xmlns:ScottPlot="http://schemas.scottplot.net/2008/xaml/presentation" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
       Title="Заявки">
 
+    <Page.Resources>
+        <!-- Стиль для ListViewItem внутри ListView -->
+        <Style TargetType="ListViewItem" x:Key="ListViewItemStretchStyle">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Стиль для самого ListView -->
+        <Style TargetType="ListView" x:Key="ListViewWithGridViewStyle">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewItemStretchStyle}"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+    </Page.Resources>
 
     <Grid Style="{StaticResource DefaultPage}">
         <Grid.RowDefinitions>
@@ -56,11 +72,13 @@
                     </Grid.RowDefinitions>
 
                     <!-- ListView -->
-                    <ListView Grid.Row="0" x:Name="listViewApplication" 
-                  MouseDoubleClick="ListViewStatus_MouseDoubleClick">
+                    <ListView Grid.Row="0"
+                          x:Name="listViewApplication"
+                          Style="{StaticResource ListViewWithGridViewStyle}"
+                          MouseDoubleClick="ListViewStatus_MouseDoubleClick">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
-                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Заявки]}" Width="auto"/>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding [ID_Заявки]}" Width="Auto"/>
                                 <GridViewColumn Header="Гражданин" DisplayMemberBinding="{Binding [ИмяПользователя]}" Width="auto"/>
                                 <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding [СтатусМероприятия]}" Width="auto"/>
                                 <GridViewColumn Header="Мероприятие" DisplayMemberBinding="{Binding [Название]}" Width="auto"/>
@@ -70,7 +88,7 @@
                     </ListView>
 
                     <!-- Статистика ВНУТРИ Border -->
-                    <Grid Grid.Row="1" Margin="0">
+                    <Grid Grid.Row="1" Margin="0 10 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <!-- Страница -->
@@ -97,18 +115,28 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="btnPrev" 
-                                    Width="30" Height="25" 
-                                    Content="‹" 
-                                    Margin="0,0,5,0"
-                                    Style="{StaticResource ActionButtonStyle}"
-                                    Click="BtnPrev_Click"/>
-                            <Button x:Name="btnNext" 
-                                    Width="30" Height="25" 
-                                    Content="›"
-                                    Style="{StaticResource ActionButtonStyle}"
-                                    Click="BtnNext_Click"/>
+                        <StackPanel Grid.Column="2" 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right">
+                            <Button x:Name="btnPrev"
+
+            Style="{StaticResource ActionButtonStyle}"
+            Click="BtnPrev_Click">
+                                <iconPacks:PackIconMaterial Kind="ArrowLeft"
+                                        Foreground="White"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                            </Button>
+
+
+                            <Button x:Name="btnNext"
+            Style="{StaticResource ActionButtonStyle}"
+            Click="BtnNext_Click">
+                                <iconPacks:PackIconMaterial Kind="ArrowRight"
+                                    Foreground="White"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Grid>
