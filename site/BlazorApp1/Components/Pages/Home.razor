@@ -1,0 +1,115 @@
+﻿@page "/"
+@using Microsoft.Data.SqlClient
+@using System.Data
+@inject IConfiguration Configuration
+<PageTitle>Мероприятия</PageTitle>
+
+<div class="container-fluid blazor-main">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>📋 Список мероприятий</h2>
+        </div>
+    </div>
+
+    @if (events == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+            <p class="mt-3 text-muted">Загружаем данные...</p>
+        </div>
+    }
+    else if (!events.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h4>📭</h4>
+            <p>Мероприятия не найдены</p>
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Описание</th>
+                            <th>Дата</th>
+                            <th>Бюджет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ev in events)
+                        {
+                            <tr>
+                                <td>@ev.ID_Мероприятия</td>
+                                <td>@ev.Название</td>
+                                <td>@(ev.Описание ?? "—")</td>
+                                <td>@ev.Дата_Мероприятия.ToString("dd.MM.yyyy")</td>
+                                <td>@(ev.Бюджет?.ToString("N2") ?? "—") ₽</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .container-fluid {
+        padding-top: 2rem;
+    }
+</style>
+
+
+
+@code {
+    private List<Event> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        string connString = Configuration.GetConnectionString("DefaultConnection")
+            ?? "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DP_2025_Loskutova;Integrated Security=True;TrustServerCertificate=true;";
+
+        try
+        {
+            using var conn = new SqlConnection(connString);
+            await conn.OpenAsync();
+
+            var cmd = new SqlCommand(@"
+                SELECT ID_Мероприятия, Название, Описание, Дата_Мероприятия, Бюджет
+                FROM МЕРОПРИЯТИЕ
+                ORDER BY Дата_Мероприятия DESC", conn);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                events.Add(new Event
+                {
+                    ID_Мероприятия = reader.GetInt32("ID_Мероприятия"),
+                    Название = reader.GetString("Название"),
+                    Описание = reader.IsDBNull("Описание") ? null : reader.GetString("Описание"),
+                    Дата_Мероприятия = reader.GetDateTime("Дата_Мероприятия"),
+                    Бюджет = reader.IsDBNull("Бюджет") ? null : reader.GetDecimal("Бюджет")
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            // Обработка ошибки
+        }
+    }
+
+    public class Event
+    {
+        public int ID_Мероприятия { get; set; }
+        public string Название { get; set; } = "";
+        public string? Описание { get; set; }
+        public DateTime Дата_Мероприятия { get; set; }
+        public decimal? Бюджет { get; set; }
+    }
+}
