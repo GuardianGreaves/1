@@ -8,7 +8,7 @@ namespace diplom_loskutova.Page
 {
     public partial class Authorization : System.Windows.Controls.Page
     {
-        int errorLogIn;
+        int errorLogIn = 0;
         private readonly string _connectionString;
 
         public Authorization()
@@ -37,10 +37,11 @@ namespace diplom_loskutova.Page
         {
             // Используем новый класс шифрования скремблер
             ScramblerEncryptor encryptor = new ScramblerEncryptor("13371337");
+
             var encryptLogin = encryptor.Encrypt(TextBoxLogin.Text.Trim());
             var encryptPassword = encryptor.Encrypt(TextBoxPassword.Password.Trim());
 
-            // Проверка пустых полей ДОНАЙТИ
+            // Проверка пустых полей
             if (string.IsNullOrEmpty(encryptLogin) || string.IsNullOrEmpty(encryptPassword))
             {
                 ShowError("Заполните поля", "Введите логин и пароль для входа в систему");
@@ -49,11 +50,13 @@ namespace diplom_loskutova.Page
 
             // Проверка пользователя в БД
             DbHelper db = new DbHelper(_connectionString);
-            var result = db.CheckUser(encryptLogin, encryptPassword);
+            var result = db.CheckUser(TextBoxLogin.Text, TextBoxPassword.Password);
 
             if (result.count > 0)
             {
-                // Успешный вход
+                // Успешный вход - сбрасываем счётчик
+                errorLogIn = 0;
+
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Успех", "Вы успешно авторизировались", "");
                 msg.ShowDialog();
@@ -61,31 +64,37 @@ namespace diplom_loskutova.Page
                 MainWindow newWindow = new MainWindow(result.name, result.role);
                 newWindow.Show();
                 Application.Current.MainWindow.Close();
-                errorLogIn = 0; // Сброс счётчика
             }
             else
             {
                 errorLogIn++;
 
-                if (errorLogIn >= 3) // ИСПРАВЛЕНО: >= 3
+                // После 3 неудачных попыток показываем капчу (errorLogIn == 3)
+                if (errorLogIn >= 3)
                 {
                     var msg = new diplom_loskutova.NotificationDialog(
-                        "Ошибка", "Больше 3 неудачных попыток",
-                        "Для продолжения введите код с картинки");
+                        "Капча", "3 неудачные попытки входа",
+                        "Введите код с картинки для продолжения");
                     msg.ShowDialog();
+
+                    // Навигация на страницу капчи
                     NavigationService.Navigate(new diplom_loskutova.Page.Captcha());
+                    errorLogIn = 0;
                 }
                 else
                 {
-                    ShowError("Неверные данные", "Неверный логин или пароль");
+                    // Показываем количество оставшихся попыток
+                    int attemptsLeft = 3 - errorLogIn;
+                    ShowError("Неверные данные",
+                        $"Неверный логин или пароль. Осталось попыток: {attemptsLeft}");
                 }
             }
         }
 
+
         // ВЫНЕСЕННАЯ МЕТОД ДЛЯ УБИРАНИЯ ДУБЛИРОВАНИЯ
         private void ShowError(string title, string message)
         {
-            errorLogIn++;
             var msg = new diplom_loskutova.NotificationDialog("Ошибка", title, message);
             msg.ShowDialog();
         }

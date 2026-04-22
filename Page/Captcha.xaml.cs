@@ -35,7 +35,7 @@ namespace diplom_loskutova.Page
                 var msg = new diplom_loskutova.NotificationDialog(
                     "Ошибка",
                     "Каптча введена верно!",
-                    "Введите каптчу заново");
+                    "");
                 msg.ShowDialog();
 
                 captchaErrors = 0;  // Сбрасываем счётчик при успехе

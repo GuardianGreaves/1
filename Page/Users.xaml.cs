@@ -72,39 +72,46 @@ namespace diplom_loskutova.Page
             {
                 MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
             }
-            Loaded += (s, e) =>
+            UpdateChart();
+        }
+
+        private void UpdateChart()
+        {
+            // ЖЕСТКАЯ ОЧИСТКА - удаляем ВСЕ элементы
+            WpfPlot1.Plot.Clear();
+
+            var roleStats = GetRoleStatistics();  // Перечитываем свежие данные!
+
+            double[] values = roleStats.AsEnumerable()
+                .Select(row => Convert.ToDouble(row["RoleCount"]))
+                .ToArray();
+
+            string[] labels = roleStats.AsEnumerable()
+                .Select(row => row["Название"].ToString())
+                .ToArray();
+
+            var pie = WpfPlot1.Plot.Add.Pie(values);
+            pie.ExplodeFraction = .1;
+            pie.SliceLabelDistance = 0.5;
+
+            double total = values.Sum();
+            double[] percentages = values.Select(v => v / total * 100).ToArray();
+
+            for (int i = 0; i < pie.Slices.Count; i++)
             {
-                double[] values = roleStats.AsEnumerable()
-                    .Select(row => Convert.ToDouble(row["RoleCount"]))
-                    .ToArray();
+                pie.Slices[i].Label = $"{percentages[i]:0.0}%\n{labels[i]}";
+                pie.Slices[i].LabelFontSize = 16;
+                pie.Slices[i].LabelBold = true;
+                pie.Slices[i].LabelFontColor = Colors.Black.WithAlpha(.7);
+            }
 
-                string[] labels = roleStats.AsEnumerable()
-                    .Select(row => row["Название"].ToString())
-                    .ToArray();
-
-                var pie = WpfPlot1.Plot.Add.Pie(values);
-                pie.ExplodeFraction = .1;
-                pie.SliceLabelDistance = 0.5;
-
-                double total = values.Sum();
-                double[] percentages = values.Select(v => v / total * 100).ToArray();
-
-                for (int i = 0; i < pie.Slices.Count; i++)
-                {
-                    pie.Slices[i].Label = $"{percentages[i]:0.0}%\n{labels[i]}";
-                    pie.Slices[i].LabelFontSize = 16;
-                    pie.Slices[i].LabelBold = true;
-                    pie.Slices[i].LabelFontColor = Colors.Black.WithAlpha(.7);
-                }
-
-                pie.Radius = 1.25;
-                WpfPlot1.Plot.Axes.SetLimits(-1.5, 1.5, -1.5, 1.5);
-                WpfPlot1.Plot.Title("Распределение пользователей по ролям");
-                WpfPlot1.Plot.ShowLegend();
-                WpfPlot1.Plot.Axes.Frameless();
-                WpfPlot1.Plot.HideGrid();
-                WpfPlot1.Refresh();
-            };
+            pie.Radius = 1.25;
+            WpfPlot1.Plot.Axes.SetLimits(-1.5, 1.5, -1.5, 1.5);
+            WpfPlot1.Plot.Title("Распределение пользователей по ролям");
+            WpfPlot1.Plot.ShowLegend();
+            WpfPlot1.Plot.Axes.Frameless();
+            WpfPlot1.Plot.HideGrid();
+            WpfPlot1.Refresh();  // Обязательно для WPF [web:1][web:3]
         }
 
         private void LoadData()
@@ -119,6 +126,7 @@ namespace diplom_loskutova.Page
                 MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка");
             }
             LoadUserStats();
+            UpdateChart();
         }
 
         private void BtnAdd(object sender, RoutedEventArgs e)
@@ -143,8 +151,6 @@ namespace diplom_loskutova.Page
                             "");
                         msg.ShowDialog();
 
-                        adapter.Update(db.ПОЛЬЗОВАТЕЛЬ);
-                        LoadData();
                     }
                     catch (Exception ex)
                     {
@@ -156,6 +162,9 @@ namespace diplom_loskutova.Page
             {
                 MessageBox.Show("Выберите строку для удаления.");
             }
+            adapter.Update(db.ПОЛЬЗОВАТЕЛЬ);
+            LoadData();
+            UpdateChart();
         }
 
         private void BtnChange(object sender, RoutedEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using diplom_loskutova.Helpers;
 using ScottPlot;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -34,7 +35,7 @@ namespace diplom_loskutova.Page
         {
             try
             {
-                adapter.Fill(db.МЕРОПРИЯТИЕ);
+                adapter.FillByWithUsersAndTypes(db.МЕРОПРИЯТИЕ);
                 //tbTotalEvent.Text = db.МЕРОПРИЯТИЕ.Count.ToString();
                 listViewEvents.ItemsSource = db.МЕРОПРИЯТИЕ.DefaultView;
             }
@@ -52,11 +53,17 @@ namespace diplom_loskutova.Page
 
         private void BuildEventTypeHistogram()
         {
-            var eventData = GetEventTypeStatistics();
-
-            if (eventData.Rows.Count == 0)
-                return;
+            // 1. ПОЛНАЯ ОЧИСТКА - обязательно!
             WpfPlot1.Plot.Clear();
+
+            var eventData = GetEventTypeStatistics();
+            if (eventData.Rows.Count == 0)
+            {
+                WpfPlot1.Refresh();
+                return;
+            }
+
+            // 2. Подготовка данных
             var values = eventData.AsEnumerable()
                 .Select(row => Convert.ToDouble(row["Count"]))
                 .ToArray();
@@ -65,18 +72,17 @@ namespace diplom_loskutova.Page
                 .ToArray();
             double[] positions = Enumerable.Range(1, values.Length).Select(x => (double)x).ToArray();
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                double[] xs = { positions[i] };
-                double[] ys = { values[i] };
+            // 3. Добавляем ОДИН график (не в цикле!)
+            var barPlot = WpfPlot1.Plot.Add.Bars(values, positions);
+            barPlot.Label = string.Join(" | ", labels); // Одна легенда
 
-                var bar = WpfPlot1.Plot.Add.Bars(xs, ys);
-                bar.LegendText = labels[i];
-            }
-
+            // 4. Настройки
             WpfPlot1.Plot.Title("Распределение мероприятий по типам");
-            WpfPlot1.Plot.ShowLegend(Alignment.UpperLeft);
+            WpfPlot1.Plot.Legend.IsVisible = true;
+            WpfPlot1.Plot.Legend.Alignment = Alignment.UpperLeft;
             WpfPlot1.Plot.Axes.Margins(bottom: 0);
+
+            // 5. ОБНОВЛЕНИЕ - обязательно!
             WpfPlot1.Refresh();
         }
         private DataTable GetEventTypeStatistics()
@@ -113,6 +119,7 @@ namespace diplom_loskutova.Page
                     $"{ex.Message}");
                 msg.ShowDialog();
             }
+            LoadUserStats();
         }
 
         private void BtnAdd(object sender, RoutedEventArgs e)
@@ -163,12 +170,13 @@ namespace diplom_loskutova.Page
                     "Вы можете выделить нужную строку и нажать Удалить");
                 msg.ShowDialog();
             }
-
+            LoadUserStats();
         }
 
         private void BtnChange(object sender, RoutedEventArgs e)
         {
             NavigatePageSelectedRow();
+            LoadUserStats();
         }
 
         private void ListViewStatus_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -194,6 +202,7 @@ namespace diplom_loskutova.Page
                     "Вы можете дважды кликнуть или выделить нужную строку и нажать Редактировать");
                 msg.ShowDialog();
             }
+            LoadUserStats();
         }
 
         private void OpenPage(bool isChangeOrAdd, DataRowView rowView = null)
@@ -217,55 +226,56 @@ namespace diplom_loskutova.Page
                 return;
             }
 
-            string filter = "";
+            var conditions = new List<string>();
 
+            // ФИО из JOIN'енной таблицы (теперь доступно в МЕРОПРИЯТИЕ)
             var fio = ComboBoxSearchFIO.Text.Trim();
             if (!string.IsNullOrEmpty(fio))
             {
-                if (filter.Length > 0)
-                    filter += " AND ";
-                filter += $"(Фамилия LIKE '%{fio}%' OR Имя LIKE '%{fio}%' OR Отчество LIKE '%{fio}%')";
+                conditions.Add($"([Фамилия] LIKE '%{EscapeLikeValue(fio)}%' OR [Имя] LIKE '%{EscapeLikeValue(fio)}%' OR [Отчество] LIKE '%{EscapeLikeValue(fio)}%')");
             }
 
             if (ComboBoxSearchTypeEvent.SelectedValue != null)
             {
-                filter += $"ID_Типа = {ComboBoxSearchTypeEvent.SelectedValue}";
+                conditions.Add($"[ID_Типа] = {ComboBoxSearchTypeEvent.SelectedValue}");
             }
 
             var login = TextBoxSearchName.Text.Trim();
             if (!string.IsNullOrEmpty(login))
             {
-                if (filter.Length > 0)
-                    filter += " AND ";
-                filter += $"Название LIKE '%{login}%'";
+                conditions.Add($"[Название] LIKE '%{EscapeLikeValue(login)}%'");
             }
 
             if (DatePickerSearchDate.SelectedDate.HasValue)
             {
-                if (filter.Length > 0)
-                    filter += " AND ";
-                string selectedDateStr = DatePickerSearchDate.SelectedDate.Value.ToString("yyyy-MM-dd");
-                filter += $"Дата_Мероприятия = #{selectedDateStr}#";
+                string selectedDateStr = DatePickerSearchDate.SelectedDate.Value.ToString("MM/dd/yyyy");
+                conditions.Add($"[Дата_Мероприятия] = #{selectedDateStr}#");
             }
 
             if (decimal.TryParse(TextBoxMinBudget.Text.Trim(), out decimal minBudget))
             {
-                if (filter.Length > 0)
-                    filter += " AND ";
-                filter += $"Бюджет >= {minBudget.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+                conditions.Add($"[Бюджет] >= {minBudget.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
             }
 
             if (decimal.TryParse(TextBoxMaxBudget.Text.Trim(), out decimal maxBudget))
             {
-                if (filter.Length > 0)
-                    filter += " AND ";
-                filter += $"Бюджет <= {maxBudget.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+                conditions.Add($"[Бюджет] <= {maxBudget.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
             }
 
+            string filter = string.Join(" AND ", conditions);
             DataView dv = db.МЕРОПРИЯТИЕ.DefaultView;
             dv.RowFilter = filter;
             listViewEvents.ItemsSource = dv;
         }
+
+        private string EscapeLikeValue(string value)
+        {
+            return value.Replace("[", "[]")
+                        .Replace("*", "[*]")
+                        .Replace("%", "[%]")
+                        .Replace("?", "[?]");
+        }
+
 
         private void ComboBoxSearchTypeEvent_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
