@@ -230,9 +230,9 @@ namespace diplom_loskutova.Page
 
             // ФИО из JOIN'енной таблицы (теперь доступно в МЕРОПРИЯТИЕ)
             var fio = ComboBoxSearchFIO.Text.Trim();
-            if (!string.IsNullOrEmpty(fio))
+            if (ComboBoxSearchFIO.SelectedValue != null)
             {
-                conditions.Add($"([Фамилия] LIKE '%{EscapeLikeValue(fio)}%' OR [Имя] LIKE '%{EscapeLikeValue(fio)}%' OR [Отчество] LIKE '%{EscapeLikeValue(fio)}%')");
+                conditions.Add($"[ID_Пользователя] = {ComboBoxSearchFIO.SelectedValue}");
             }
 
             if (ComboBoxSearchTypeEvent.SelectedValue != null)
