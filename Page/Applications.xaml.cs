@@ -257,32 +257,44 @@ namespace diplom_loskutova.Page
 
         private void ApplyFilter()
         {
-            if (db.ЗАЯВКА.Rows.Count == 0)
+            if (statusTable.Rows.Count == 0)
             {
                 listViewApplication.ItemsSource = null;
                 return;
             }
 
-            List<string> filters = new List<string>();
+            var conditions = new List<string>();
 
+            // ФИЛЬТР ПО ID_Гражданина (из комбобокса)
             if (ComboBoxSearchFIO.SelectedValue != null)
-                filters.Add($"ID_Гражданина = {ComboBoxSearchFIO.SelectedValue}");
+            {
+                int idGr = (int)ComboBoxSearchFIO.SelectedValue;
+                conditions.Add($"ID_Гражданина = {idGr}");
+            }
 
+            // ФИЛЬТР ПО ID_Статуса
             if (ComboBoxSearchStatus.SelectedValue != null)
-                filters.Add($"ID_Статуса = {ComboBoxSearchStatus.SelectedValue}");
+            {
+                int idSt = (int)ComboBoxSearchStatus.SelectedValue;
+                conditions.Add($"ID_Статуса = {idSt}");
+            }
 
+            // ФИЛЬТР ПО ID_Мероприятия
             if (ComboBoxSearchEvent.SelectedValue != null)
-                filters.Add($"ID_Мероприятия = {ComboBoxSearchEvent.SelectedValue}");
+            {
+                int idEv = (int)ComboBoxSearchEvent.SelectedValue;
+                conditions.Add($"ID_Мероприятия = {idEv}");
+            }
 
+            // ФИЛЬТР ПО ДАТЕ
             if (DatePickerSearch.SelectedDate.HasValue)
             {
                 string selectedDateStr = DatePickerSearch.SelectedDate.Value.ToString("yyyy-MM-dd");
-                filters.Add($"Дата_Создания = '{selectedDateStr}'");
+                conditions.Add($"Дата_Создания = '{selectedDateStr}'");
             }
 
-            string filter = string.Join(" AND ", filters);
-
-            DataView dv = db.ЗАЯВКА.DefaultView;
+            string filter = string.Join(" AND ", conditions);
+            DataView dv = statusTable.DefaultView;
             dv.RowFilter = filter;
             listViewApplication.ItemsSource = dv;
         }
@@ -318,6 +330,7 @@ namespace diplom_loskutova.Page
         private void LoadToComboBox()
         {
             var userAdapter = new DP_2025_LoskutovaDataSetTableAdapters.ГРАЖДАНИНTableAdapter();
+            
             var usersTable = userAdapter.GetData();
             usersTable.Columns.Add("FullName", typeof(string), "Фамилия + ' ' + Имя + ' ' + Отчество");
             ComboBoxHelper.LoadData(ComboBoxSearchFIO, usersTable, "FullName", "ID_Гражданина");
