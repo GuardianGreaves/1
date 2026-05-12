@@ -53,9 +53,22 @@ namespace diplom_loskutova
         // Универсальный метод для открытия страниц в главном фрейме
         private void OpenPage(object page)
         {
-            mainFrame.Navigate(page);
-            mainFrame.Visibility = Visibility.Visible;  // Показываем Frame
-            WelcomeText.Visibility = Visibility.Collapsed;  // Скрываем приветственный текст
+            try
+            {
+                mainFrame.Navigate(page);
+
+                mainFrame.Visibility = Visibility.Visible; // Показываем Frame
+                WelcomeText.Visibility = Visibility.Collapsed; // Скрываем приветственный текст
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ошибка при открытии страницы:\n{ex.Message}",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
         }
 
         // Вспомогательный метод для получения текущего окна

@@ -72,31 +72,57 @@ namespace diplom_loskutova.Page
 
         private void SaveConnectionButton_Click(object sender, RoutedEventArgs e)
         {
-            var builder = new SqlConnectionStringBuilder
+            try
             {
-                DataSource = DataSourceTextBox.Text,
-                InitialCatalog = InitialCatalogTextBox.Text,
-                UserID = UserTextBox.Text,
-                Password = PasswordBox.Password,
-                IntegratedSecurity = false
-            };
+                var builder = new SqlConnectionStringBuilder
+                {
+                    DataSource = DataSourceTextBox.Text,
+                    InitialCatalog = InitialCatalogTextBox.Text,
+                    UserID = UserTextBox.Text,
+                    Password = PasswordBox.Password,
+                    IntegratedSecurity = false
+                };
 
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            var cs = config.ConnectionStrings.ConnectionStrings["diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString"];
-            if (cs == null)
-            {
-                cs = new ConnectionStringSettings("diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString", builder.ToString(), "System.Data.SqlClient");
-                config.ConnectionStrings.ConnectionStrings.Add(cs);
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                var cs = config.ConnectionStrings.ConnectionStrings[
+                    "diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString"
+                ];
+
+                if (cs == null)
+                {
+                    cs = new ConnectionStringSettings(
+                        "diplom_loskutova.Properties.Settings.DP_2025_LoskutovaConnectionString",
+                        builder.ToString(),
+                        "System.Data.SqlClient"
+                    );
+
+                    config.ConnectionStrings.ConnectionStrings.Add(cs);
+                }
+                else
+                {
+                    cs.ConnectionString = builder.ToString();
+                }
+
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("connectionStrings");
+
+                MessageBox.Show(
+                    "Строка подключения сохранена. Перезапустите приложение.",
+                    "Сохранение",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
             }
-            else
+            catch (Exception ex)
             {
-                cs.ConnectionString = builder.ToString();
+                MessageBox.Show(
+                    $"Ошибка при сохранении строки подключения:\n{ex.Message}",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
             }
-
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("connectionStrings");
-
-            MessageBox.Show("Строка подключения сохранена. Перезапустите приложение.", "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void InstructionsButton_Click(object sender, RoutedEventArgs e)

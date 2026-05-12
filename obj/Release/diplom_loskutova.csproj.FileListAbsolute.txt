@@ -204,3 +204,8 @@ C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.csproj.CoreCompile
 C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_l.760AEB09.Up2Date
 C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.exe
 C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.pdb
+C:\Users\oboskalov_n\Desktop\dip\bin\Release\diplom_loskutova.exe.manifest
+C:\Users\oboskalov_n\Desktop\dip\bin\Release\diplom_loskutova.application
+C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.exe.config
+C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.exe.manifest
+C:\Users\oboskalov_n\Desktop\dip\obj\Release\diplom_loskutova.application
